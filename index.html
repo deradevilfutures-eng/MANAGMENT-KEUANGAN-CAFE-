@@ -11,12 +11,7 @@
 </style>
 </head>
 <body>
-<section id="authView" class="auth panel hidden">
-<div class="brand">racik<span>.</span></div>
-<h1>Keuangan kafe, lebih rapi.</h1><p class="muted">Masuk untuk mengelola transaksi, stok, laporan, dan pegawai.</p>
-<div id="setupNotice" class="notice">Hubungkan proyek Supabase terlebih dahulu dengan mengisi SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY di bagian konfigurasi file ini.</div>
-<form id="authForm"><div><label>EMAIL</label><input id="email" type="email" required autocomplete="email" placeholder="nama@kafe.com"></div><div><label>KATA SANDI</label><input id="password" type="password" required minlength="8" autocomplete="current-password" placeholder="Minimal 8 karakter"></div><div style="display:flex;gap:8px"><button type="submit" style="flex:1">Masuk</button><button type="button" class="secondary" id="signupBtn">Daftar</button></div></form><p id="authMessage" class="status" style="margin-top:14px"></p>
-</section>
+
 <div id="appView" class="shell">
 <aside class="sidebar"><div class="brand">racik<span>.</span></div><div class="nav" id="nav">
 <button class="active" data-page="dashboard">◫ &nbsp; Dashboard</button><button data-page="transactions">↕ &nbsp; Transaksi</button><button data-page="inventory">▦ &nbsp; Inventaris</button><button data-page="employees">♙ &nbsp; Pegawai</button><button data-page="reports">▤ &nbsp; Laporan</button></div><div class="sidefoot">Cafe Finance Manager<br>Data tersimpan lokal di browser ini.</div></aside>
@@ -82,7 +77,7 @@ $('applyReport').addEventListener('click',renderReports);
 $('refreshBtn').addEventListener('click',()=>{load();renderAll();message('Data lokal dimuat ulang.')});
 $('logoutBtn').textContent='Info penyimpanan';
 $('logoutBtn').addEventListener('click',()=>alert('Racik berjalan tanpa akun. Data hanya tersimpan di localStorage browser/perangkat ini. Gunakan Ekspor CSV untuk membuat cadangan. Jangan gunakan mode ini untuk data sensitif atau jika membutuhkan sinkronisasi antarperangkat.'));
-$('authForm').addEventListener('submit',e=>e.preventDefault());$('signupBtn').addEventListener('click',()=>alert('Mode lokal tidak memakai akun atau server. Aplikasi langsung terbuka di perangkat ini.'));
+
 load();renderAll();$('userLabel').textContent='Mode lokal';$('todayLabel').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 </script>
 <script>
