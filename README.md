@@ -1,47 +1,37 @@
 # Racik — Manajemen Keuangan Kafe
 
-Aplikasi web responsif untuk pencatatan keuangan dan operasional kafe. Dibangun sebagai static frontend HTML/CSS/JavaScript dengan Supabase Auth + PostgreSQL.
+Aplikasi web responsif untuk pencatatan keuangan dan operasional kafe. Dibuat dengan HTML, CSS, dan JavaScript tanpa backend atau layanan database eksternal.
 
-## Fitur awal
-- Login dan pendaftaran email/kata sandi
-- Dashboard pemasukan, pengeluaran, arus kas bersih, dan nilai persediaan
-- Pencatatan serta penghapusan transaksi
-- Inventaris dengan ambang stok minimum
+## Fitur
+- Dashboard pemasukan, pengeluaran, arus kas bersih, nilai stok, dan grafik 6 bulan
+- Tambah dan hapus transaksi pemasukan/pengeluaran
+- Inventaris, batas minimum stok, dan nilai persediaan
 - Daftar pegawai, status aktif/nonaktif, dan gaji bulanan
-- Filter laporan dan ekspor CSV
-- Data terpusat di Supabase, dengan Row Level Security (RLS) berdasarkan akun pemilik
+- Filter laporan berdasarkan tanggal
+- Ekspor transaksi, inventaris, pegawai, dan laporan ke CSV
+- Tampilan responsif untuk desktop, tablet, dan ponsel
 
-## Setup database
-1. Buat proyek di https://supabase.com/.
-2. Buka **SQL Editor** di dashboard Supabase.
-3. Salin dan jalankan seluruh isi `supabase/schema.sql`.
-4. Pastikan tabel `transactions`, `inventory_items`, dan `employees` dibuat tanpa error.
+## Penyimpanan dan batasan penting
+- Data disimpan pada `localStorage` di browser/perangkat yang sedang digunakan.
+- Tidak perlu membuat akun, mengisi API key, atau mengatur Supabase.
+- Data **tidak tersinkron otomatis** antar-browser atau antarperangkat dan tidak otomatis tersedia untuk pengguna lain.
+- Menghapus data browser, menggunakan mode privat, atau mengganti perangkat/browser dapat membuat data tidak tersedia. Gunakan ekspor CSV secara berkala sebagai cadangan.
+- Karena tidak ada autentikasi server, jangan gunakan mode ini untuk data sensitif atau untuk operasional multi-user yang membutuhkan kontrol akses. GitHub Pages hanya menyajikan file statis; bukan database online.
 
-## Konfigurasi aplikasi
-Edit bagian konfigurasi pada `index.html`:
-```js
-const SUPABASE_URL = "https://PROJECT_ID.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_...";
-```
-Ambil URL dan publishable key dari halaman Connect / API Keys proyek Supabase. Legacy `anon` key juga dapat dipakai dengan kebijakan RLS yang benar. **Jangan pernah menaruh service_role atau secret key di HTML/browser.**
+## Menjalankan secara lokal
+Buka `index.html` di browser modern. Untuk publikasi, gunakan GitHub Pages.
 
-## Menjalankan
-- Buka `index.html` untuk mencoba tampilan; fungsi database membutuhkan konfigurasi Supabase dan koneksi internet.
-- Di GitHub, buka **Settings → Pages**, pilih **Deploy from a branch**, branch `main`, folder `/(root)`, lalu Save.
-- Setelah proses selesai, gunakan URL GitHub Pages yang diberikan oleh GitHub.
+## Deploy ke GitHub Pages
+1. Buka **Settings → Pages** pada repository.
+2. Pada **Build and deployment**, pilih **GitHub Actions** sebagai source.
+3. Buka tab **Actions**, lalu tunggu workflow Pages selesai dengan status hijau.
+4. Buka URL Pages yang ditampilkan GitHub pada Settings → Pages.
 
-## Catatan keamanan penting
-- Pendaftaran akun tersedia dari halaman login. Aktifkan konfirmasi email di Supabase Auth jika sesuai kebutuhan.
-- Setiap tabel memakai RLS dan setiap row dimiliki oleh `auth.uid()`. Akun hanya dapat mengakses row miliknya sendiri.
-- Jangan membagikan akun; gunakan kata sandi kuat dan aktifkan proteksi akun yang tersedia.
-- Static site ini belum memiliki role owner/cashier multi-user untuk satu kafe. Pada versi awal, tiap akun melihat data milik akunnya sendiri.
-- Untuk produksi, tambahkan pengujian RLS, backup database, validasi bisnis, audit log, kebijakan retensi data, dan uji lintas perangkat sebelum menyimpan data keuangan nyata.
-- Data contoh tidak ditambahkan otomatis agar laporan tidak tercampur dengan transaksi riil.
+Setiap perubahan yang di-commit ke branch `main` akan memicu workflow deploy.
 
 ## Struktur
 ```
 index.html
 README.md
-supabase/
-  schema.sql
+.github/workflows/pages.yml
 ```
