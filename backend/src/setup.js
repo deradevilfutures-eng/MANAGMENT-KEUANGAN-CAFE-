@@ -17,6 +17,7 @@ export function registerSetupRoutes(app, { pool }) {
       return res.status(403).json({error:'setup_not_authorized'});
     const organizationName=String(req.body?.organizationName||'').trim().slice(0,120);
     const ownerName=String(req.body?.ownerName||'').trim().slice(0,120);
+    const username=String(req.body?.username||'').trim().toLowerCase();
     const email=String(req.body?.email||'').trim().toLowerCase();
     const password=String(req.body?.password||'');
     if(!organizationName||!ownerName||!/^\S+@\S+\.\S+$/.test(email)||password.length<12||password.length>256)
@@ -30,9 +31,9 @@ export function registerSetupRoutes(app, { pool }) {
       const org=await client.query('INSERT INTO organizations(name) VALUES($1) RETURNING id',[organizationName]);
       const branch=await client.query(`INSERT INTO branches(organization_id,code,name)
         VALUES($1,'MAIN','Cabang Utama') RETURNING id`,[org.rows[0].id]);
-      const user=await client.query(`INSERT INTO users(organization_id,full_name,email,password_hash)
-        VALUES($1,$2,$3,$4) RETURNING id`,
-        [org.rows[0].id,ownerName,email,await argon2.hash(password,{type:argon2.argon2id})]);
+      const user=await client.query(`INSERT INTO users(organization_id,full_name,username,email,password_hash)
+        VALUES($1,$2,$3,$4,$5) RETURNING id`,
+        [org.rows[0].id,ownerName,username,email,await argon2.hash(password,{type:argon2.argon2id})]);
       const role=await client.query("SELECT id FROM roles WHERE code='owner'");
       await client.query('INSERT INTO organization_memberships(user_id,organization_id,role_id) VALUES($1,$2,$3)',
         [user.rows[0].id,org.rows[0].id,role.rows[0].id]);
