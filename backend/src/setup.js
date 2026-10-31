@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { timingSafeEqual } from 'node:crypto';
 import argon2 from 'argon2';
 
 export function registerSetupRoutes(app, { pool }) {
@@ -10,7 +10,10 @@ export function registerSetupRoutes(app, { pool }) {
   });
   app.post('/api/setup/owner', async(req,res,next)=>{
     const secret=String(req.get('x-bootstrap-secret')||'');
-    if(!process.env.BOOTSTRAP_SECRET || !secret || secret.length>512 || secret!==process.env.BOOTSTRAP_SECRET)
+    const expected = process.env.BOOTSTRAP_SECRET || '';
+    const supplied = Buffer.from(secret);
+    const expectedBytes = Buffer.from(expected);
+    if(!expected || !secret || supplied.length !== expectedBytes.length || !timingSafeEqual(supplied, expectedBytes))
       return res.status(403).json({error:'setup_not_authorized'});
     const organizationName=String(req.body?.organizationName||'').trim().slice(0,120);
     const ownerName=String(req.body?.ownerName||'').trim().slice(0,120);
