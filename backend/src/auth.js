@@ -10,7 +10,7 @@ const newToken = () => randomBytes(32).toString('base64url');
 const cookieOptions = (isProduction) => ({
   httpOnly: true,
   secure: isProduction,
-  sameSite: 'lax',
+  sameSite: isProduction ? 'none' : 'lax',
   path: '/api/auth',
   maxAge: REFRESH_TTL_MS,
 });
@@ -127,7 +127,7 @@ export function registerAuthRoutes(app, { pool, isProduction, loginLimiter }) {
       );
       const session = found.rows[0];
       if (!session) {
-        res.clearCookie(COOKIE_NAME, { httpOnly: true, secure: isProduction, sameSite: 'lax', path: '/api/auth' });
+        res.clearCookie(COOKIE_NAME, { httpOnly: true, secure: isProduction, sameSite: isProduction ? 'none' : 'lax', path: '/api/auth' });
         return res.status(401).json({ error: 'refresh_session_invalid' });
       }
 
