@@ -51,7 +51,7 @@ export function registerAuthRoutes(app,{pool,isProduction,loginLimiter}){
         return res.status(400).json({error:'invalid_credentials_format'});
       const result=organizationId
         ? await pool.query(`SELECT id,password_hash FROM users WHERE lower(username)=$1 AND organization_id=$2 AND is_active=TRUE LIMIT 1`,[username,organizationId])
-        : await pool.query(`SELECT id,password_hash FROM users WHERE lower(email)=$1 AND is_active=TRUE ORDER BY created_at LIMIT 2`,[username]);
+        : await pool.query(`SELECT id,password_hash FROM users WHERE lower(username)=$1 AND is_active=TRUE ORDER BY created_at LIMIT 2`,[username]);
       if(!organizationId&&result.rowCount>1)return res.status(400).json({error:'organization_id_required'});
       const user=result.rows[0];
       const valid=user?await argon2.verify(user.password_hash,password).catch(()=>false):false;
