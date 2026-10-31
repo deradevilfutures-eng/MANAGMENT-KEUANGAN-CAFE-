@@ -16,6 +16,7 @@ app.set('trust proxy', isProduction ? 1 : false);
 app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: { policy: 'same-site' } }));
 app.use(express.json({ limit: '32kb' }));
 app.use(cookieParser());
+app.use('/api', (_req, res, next) => { res.setHeader('Cache-Control', 'no-store'); next(); });
 
 const pool = process.env.DATABASE_URL
   ? new Pool({
