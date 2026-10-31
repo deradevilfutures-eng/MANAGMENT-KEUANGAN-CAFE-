@@ -28,12 +28,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@1e60f620b9541d7b0b6b72c4c4a8b6b9b7b4a8a # v4.0.3
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 20
-          cache: npm
-      - name: Install dependencies
-        run: npm install --ignore-scripts
       - name: Check JavaScript syntax
         run: |
           node --check api/[...path].js
