@@ -6,11 +6,13 @@ on:
     paths:
       - "backend/**"
       - "database/**"
+      - "render.yaml"
       - ".github/workflows/backend-ci.yml"
   pull_request:
     paths:
       - "backend/**"
       - "database/**"
+      - "render.yaml"
       - ".github/workflows/backend-ci.yml"
 
 jobs:
