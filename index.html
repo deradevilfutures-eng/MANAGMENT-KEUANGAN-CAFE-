@@ -2,108 +2,243 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#10231e"><title>Racik — Manajemen Keuangan Kafe</title>
+<meta name="theme-color" content="#10231e"><meta name="description" content="Racik — sistem manajemen keuangan dan operasional kafe.">
+<title>Racik — Manajemen Kafe</title>
 <style>
-:root{--bg:#f4f6f3;--panel:#fff;--ink:#172b25;--muted:#708079;--line:#e2e9e4;--green:#176b4d;--mint:#e4f3eb;--red:#b94b43;--gold:#dca94e}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:var(--green);color:white;font-weight:650}button.secondary{background:#eef3ef;color:var(--ink);border:1px solid var(--line)}button.danger{background:#fff0ee;color:var(--red)}input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}label{font-size:12px;color:var(--muted);font-weight:700;display:block;margin:0 0 6px}h1,h2,h3,p{margin-top:0}h1{font-size:25px;letter-spacing:-.7px;margin-bottom:4px}h2{font-size:17px;margin-bottom:14px}small,.muted{color:var(--muted)}.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}.sidebar{background:#10231e;color:white;padding:25px 16px;display:flex;flex-direction:column;gap:26px}.brand{font-size:22px;font-weight:850;letter-spacing:-1px;padding:0 12px}.brand span{color:#8bd0a7}.nav{display:grid;gap:6px}.nav button{background:transparent;text-align:left;color:#c2d1c8;font-weight:550}.nav button.active,.nav button:hover{background:#24483a;color:#fff}.sidefoot{margin-top:auto;color:#a8beb1;font-size:12px;padding:10px}.main{padding:28px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:24px}.top-actions{display:flex;gap:8px;align-items:center}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:0 3px 12px #142a1c05}.metric{font-size:24px;font-weight:800;letter-spacing:-.6px;margin:7px 0}.metric-label{font-size:13px;color:var(--muted)}.eyebrow{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:15px}.section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:15px}.section-head h2{margin:0}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;white-space:nowrap}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}tbody tr:last-child td{border-bottom:0}.positive{color:var(--green);font-weight:750}.negative{color:var(--red);font-weight:750}.pill{background:var(--mint);color:var(--green);padding:4px 8px;border-radius:20px;font-size:11px;font-weight:750}.pill.low{background:#fff0df;color:#985d0a}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field.full{grid-column:1/-1}.form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.hidden{display:none!important}.empty{padding:28px;text-align:center;color:var(--muted)}.auth{max-width:440px;margin:8vh auto;padding:28px}.auth .brand{padding:0;margin-bottom:25px;color:var(--ink)}.auth form{display:grid;gap:14px}.notice{padding:11px 13px;background:#fff4d9;color:#76510d;border-radius:10px;font-size:13px;margin-bottom:16px}.status{font-size:12px;color:var(--muted)}.barlist{display:grid;gap:14px}.barrow{display:grid;grid-template-columns:90px 1fr 110px;gap:10px;align-items:center;font-size:12px}.track{height:8px;background:#edf1ed;border-radius:9px;overflow:hidden}.fill{height:100%;background:#3c9b70;border-radius:9px}.fill.exp{background:#e0a24c}.page{display:none}.page.active{display:block}.mobilebrand{display:none}
+:root{--bg:#f4f7f4;--panel:#fff;--ink:#172b25;--muted:#708079;--line:#e2e9e4;--green:#176b4d;--mint:#e4f3eb;--red:#b94b43;--gold:#dca94e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:var(--green);color:white;font-weight:650}button.secondary{background:#eef3ef;color:var(--ink);border:1px solid var(--line)}button.danger{background:#fff0ee;color:var(--red)}input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}label{font-size:12px;color:var(--muted);font-weight:700;display:block;margin:0 0 6px}h1,h2,h3,p{margin-top:0}h1{font-size:26px;letter-spacing:-.7px;margin-bottom:4px}h2{font-size:17px;margin-bottom:14px}.muted,.status{color:var(--muted)}.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}.sidebar{background:#10231e;color:white;padding:25px 16px;display:flex;flex-direction:column;gap:26px}.brand{font-size:23px;font-weight:850;letter-spacing:-1px;padding:0 12px}.brand span{color:#8bd0a7}.nav{display:grid;gap:6px}.nav button{background:transparent;text-align:left;color:#c2d1c8;font-weight:550}.nav button.active,.nav button:hover{background:#24483a;color:#fff}.sidefoot{margin-top:auto;color:#a8beb1;font-size:12px;padding:10px}.main{padding:28px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:24px}.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:0 3px 12px #142a1c05}.metric{font-size:24px;font-weight:800;letter-spacing:-.6px;margin:7px 0}.metric-label{font-size:13px;color:var(--muted)}.eyebrow{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:15px}.section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:15px}.section-head h2{margin:0}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;white-space:nowrap}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}tbody tr:last-child td{border-bottom:0}.positive{color:var(--green);font-weight:750}.negative{color:var(--red);font-weight:750}.pill{background:var(--mint);color:var(--green);padding:4px 8px;border-radius:20px;font-size:11px;font-weight:750}.pill.low{background:#fff0df;color:#985d0a}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field.full{grid-column:1/-1}.form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.hidden{display:none!important}.empty{padding:28px;text-align:center;color:var(--muted)}.auth{max-width:460px;margin:7vh auto;padding:28px}.auth .brand{padding:0;margin-bottom:22px;color:var(--ink)}.auth form{display:grid;gap:14px}.notice{padding:11px 13px;background:#fff4d9;color:#76510d;border-radius:10px;font-size:13px;margin-bottom:16px}.page{display:none}.page.active{display:block}.message{font-size:13px;margin:10px 0;color:var(--muted);min-height:20px}.barlist{display:grid;gap:14px}.barrow{display:grid;grid-template-columns:100px 1fr 110px;gap:10px;align-items:center;font-size:12px}.track{height:8px;background:#edf1ed;border-radius:9px;overflow:hidden}.fill{height:100%;background:#3c9b70;border-radius:9px}.fill.exp{background:#e0a24c}.branch{min-width:170px}.hidden{display:none!important}
 @media(max-width:950px){.shell{grid-template-columns:1fr}.sidebar{padding:12px;gap:10px}.brand{padding:4px 8px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:9px 12px}.sidefoot{display:none}.main{padding:18px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
-@media(max-width:520px){.top{align-items:flex-start;flex-direction:column}.top-actions{width:100%;flex-wrap:wrap}.cards{gap:9px}.card{padding:14px}.metric{font-size:19px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.main{padding:13px}.sidebar{padding:10px}.nav button{font-size:12px}.auth{margin:3vh 12px;padding:22px}}
+@media(max-width:520px){.top{align-items:flex-start;flex-direction:column}.top-actions{width:100%}.cards{gap:9px}.card{padding:14px}.metric{font-size:19px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.main{padding:13px}.sidebar{padding:10px}.nav button{font-size:12px}.auth{margin:3vh 12px;padding:22px}.barrow{grid-template-columns:70px 1fr 90px}}
 </style>
 </head>
 <body>
+<section id="authView" class="panel auth">
+ <div class="brand">racik<span>.</span></div>
+ <div class="eyebrow">CAFE MANAGEMENT</div><h1 id="authTitle">Masuk ke Racik</h1>
+ <p class="muted" id="authSubtitle">Kelola keuangan dan operasional kafe dalam satu tempat.</p>
+ <div id="setupNotice" class="notice hidden">Ini pertama kali Racik disiapkan. Buat akun pemilik untuk memulai. Secret setup hanya digunakan sekali.</div>
+ <form id="loginForm">
+  <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="username" required></div>
+  <div class="field"><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+  <div id="orgLoginField" class="field hidden"><label for="loginOrg">Organization ID (jika diminta)</label><input id="loginOrg" placeholder="Opsional"></div>
+  <button type="submit">Masuk</button>
+ </form>
+ <form id="setupForm" class="hidden">
+  <div class="field"><label for="setupSecret">Secret setup sementara</label><input id="setupSecret" type="password" required autocomplete="off"></div>
+  <div class="field"><label for="orgName">Nama usaha / organisasi</label><input id="orgName" required maxlength="120" placeholder="Nama kafe"></div>
+  <div class="field"><label for="ownerName">Nama pemilik</label><input id="ownerName" required maxlength="120"></div>
+  <div class="field"><label for="ownerEmail">Email pemilik</label><input id="ownerEmail" type="email" required></div>
+  <div class="field"><label for="ownerPassword">Password (minimal 12 karakter)</label><input id="ownerPassword" type="password" minlength="12" required autocomplete="new-password"></div>
+  <button type="submit">Buat akun pemilik</button>
+ </form>
+ <div id="authMessage" class="message" role="status"></div>
+ <button id="switchSetup" class="secondary hidden" type="button">Pengaturan awal pemilik</button>
+ <button id="switchLogin" class="secondary hidden" type="button">Kembali ke login</button>
+</section>
 
-<div id="appView" class="shell">
-<aside class="sidebar"><div class="brand">racik<span>.</span></div><div class="nav" id="nav">
-<button class="active" data-page="dashboard">◫ &nbsp; Dashboard</button><button data-page="transactions">↕ &nbsp; Transaksi</button><button data-page="inventory">▦ &nbsp; Inventaris</button><button data-page="employees">♙ &nbsp; Pegawai</button><button data-page="reports">▤ &nbsp; Laporan</button></div><div class="sidefoot">Cafe Finance Manager<br>Data tersimpan lokal di browser ini.</div></aside>
-<main class="main"><header class="top"><div><div class="eyebrow" id="todayLabel">RINGKASAN OPERASIONAL</div><h1 id="pageTitle">Dashboard</h1><p class="muted" id="pageSubtitle">Pantau kesehatan keuangan kafe Anda.</p></div><div class="top-actions"><span class="status" id="userLabel"></span><button class="secondary" id="refreshBtn">↻ Muat ulang</button><button class="secondary" id="logoutBtn">Keluar</button></div></header>
-<div id="appMessage" class="status" role="status" style="margin-bottom:12px">Mode lokal aktif — data tersimpan di browser/perangkat ini saja.</div>
-<section class="page active" id="page-dashboard"><div class="cards"><div class="card"><div class="metric-label">Total pemasukan</div><div class="metric" id="totalIncome">Rp0</div><div class="status">Semua transaksi tercatat</div></div><div class="card"><div class="metric-label">Total pengeluaran</div><div class="metric" id="totalExpense">Rp0</div><div class="status">Semua transaksi tercatat</div></div><div class="card"><div class="metric-label">Arus kas bersih</div><div class="metric" id="netCash">Rp0</div><div class="status">Pemasukan dikurangi pengeluaran</div></div><div class="card"><div class="metric-label">Nilai persediaan</div><div class="metric" id="stockValue">Rp0</div><div class="status" id="lowStockCount">0 stok perlu dicek</div></div></div>
-<div class="grid2"><div class="panel"><div class="section-head"><h2>Transaksi terbaru</h2><button class="secondary" data-goto="transactions">Lihat semua</button></div><div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Deskripsi</th><th>Jenis</th><th>Jumlah</th></tr></thead><tbody id="recentRows"></tbody></table></div></div><div class="panel"><h2>Arus kas bulanan</h2><div id="cashBars" class="barlist"></div><p class="status" style="margin:16px 0 0">Ringkasan 6 bulan terakhir berdasarkan tanggal transaksi.</p></div></div></section>
-<section class="page" id="page-transactions"><div class="panel"><div class="section-head"><h2>Tambah transaksi</h2><span class="pill">Keuangan</span></div><form id="txnForm"><div class="formgrid"><div class="field"><label>TANGGAL</label><input id="txnDate" type="date" required></div><div class="field"><label>JENIS</label><select id="txnType"><option value="income">Pemasukan</option><option value="expense">Pengeluaran</option></select></div><div class="field"><label>KATEGORI</label><select id="txnCategory"><option>Penjualan</option><option>Bahan baku</option><option>Gaji</option><option>Sewa</option><option>Utilitas</option><option>Peralatan</option><option>Pemasaran</option><option>Lainnya</option></select></div><div class="field"><label>NOMINAL (RUPIAH)</label><input id="txnAmount" type="number" min="1" step="1" required placeholder="150000"></div><div class="field full"><label>DESKRIPSI</label><input id="txnDescription" required maxlength="160" placeholder="Contoh: Penjualan shift pagi"></div></div><div class="form-actions"><button type="submit">Simpan transaksi</button></div></form></div><div class="panel" style="margin-top:15px"><div class="section-head"><h2>Riwayat transaksi</h2><button class="secondary" id="exportTxn">Ekspor CSV</button></div><div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Deskripsi</th><th>Kategori</th><th>Jenis</th><th>Jumlah</th><th>Aksi</th></tr></thead><tbody id="txnRows"></tbody></table></div></div></section>
-<section class="page" id="page-inventory"><div class="panel"><div class="section-head"><h2>Tambah item persediaan</h2><span class="pill">Stok</span></div><form id="stockForm"><div class="formgrid"><div class="field"><label>NAMA ITEM</label><input id="stockName" required maxlength="100" placeholder="Biji kopi arabika"></div><div class="field"><label>KATEGORI</label><input id="stockCategory" value="Bahan baku" required></div><div class="field"><label>JUMLAH STOK</label><input id="stockQty" type="number" min="0" step=".01" value="0" required></div><div class="field"><label>SATUAN</label><input id="stockUnit" value="kg" required></div><div class="field"><label>BATAS MINIMUM</label><input id="stockMin" type="number" min="0" step=".01" value="1" required></div><div class="field"><label>HARGA PER SATUAN (RP)</label><input id="stockCost" type="number" min="0" step="1" value="0" required></div></div><div class="form-actions"><button type="submit">Simpan item</button></div></form></div><div class="panel" style="margin-top:15px"><div class="section-head"><h2>Daftar persediaan</h2><button class="secondary" id="exportStock">Ekspor CSV</button></div><div class="tablewrap"><table><thead><tr><th>Nama</th><th>Kategori</th><th>Jumlah</th><th>Minimum</th><th>Harga/unit</th><th>Nilai stok</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="stockRows"></tbody></table></div></div></section>
-<section class="page" id="page-employees"><div class="panel"><div class="section-head"><h2>Tambah pegawai</h2><span class="pill">Tim</span></div><form id="employeeForm"><div class="formgrid"><div class="field"><label>NAMA LENGKAP</label><input id="empName" required maxlength="120"></div><div class="field"><label>JABATAN</label><input id="empRole" value="Staff" required maxlength="80"></div><div class="field"><label>NOMOR TELEPON (OPSIONAL)</label><input id="empPhone" type="tel" maxlength="30"></div><div class="field"><label>GAJI BULANAN (RP)</label><input id="empSalary" type="number" min="0" step="1" value="0" required></div></div><div class="form-actions"><button type="submit">Simpan pegawai</button></div></form></div><div class="panel" style="margin-top:15px"><div class="section-head"><h2>Daftar pegawai</h2><button class="secondary" id="exportEmp">Ekspor CSV</button></div><div class="tablewrap"><table><thead><tr><th>Nama</th><th>Jabatan</th><th>Telepon</th><th>Gaji/bulan</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="empRows"></tbody></table></div><p class="status">Simpan data pegawai seperlunya. Batasi akses akun dan jangan masukkan data sensitif yang tidak diperlukan.</p></div></section>
-<section class="page" id="page-reports"><div class="cards"><div class="card"><div class="metric-label">Pemasukan periode</div><div class="metric" id="reportIncome">Rp0</div></div><div class="card"><div class="metric-label">Pengeluaran periode</div><div class="metric" id="reportExpense">Rp0</div></div><div class="card"><div class="metric-label">Selisih</div><div class="metric" id="reportNet">Rp0</div></div><div class="card"><div class="metric-label">Jumlah transaksi</div><div class="metric" id="reportCount">0</div></div></div><div class="panel"><div class="section-head"><h2>Filter laporan</h2><button id="exportReport">Unduh laporan CSV</button></div><div class="formgrid"><div class="field"><label>DARI TANGGAL</label><input id="reportFrom" type="date"></div><div class="field"><label>SAMPAI TANGGAL</label><input id="reportTo" type="date"></div></div><div class="form-actions"><button id="applyReport" type="button">Terapkan filter</button></div></div><div class="panel" style="margin-top:15px"><h2>Rincian laporan</h2><div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Deskripsi</th><th>Kategori</th><th>Jenis</th><th>Jumlah</th></tr></thead><tbody id="reportRows"></tbody></table></div></div></section>
-</main></div>
+<div id="appView" class="shell hidden">
+ <aside class="sidebar">
+  <div class="brand">racik<span>.</span></div>
+  <div class="nav" id="nav">
+   <button class="active" data-page="dashboard">◫ &nbsp; Dashboard</button>
+   <button data-page="transactions">↕ &nbsp; Transaksi</button>
+   <button data-page="inventory">▦ &nbsp; Inventaris</button>
+   <button data-page="employees">♙ &nbsp; Pegawai</button>
+   <button data-page="reports">▤ &nbsp; Laporan</button>
+  </div>
+  <div class="sidefoot">Racik Cafe Management<br><span id="connectionLabel">Database terhubung</span></div>
+ </aside>
+ <main class="main">
+  <header class="top">
+   <div><div class="eyebrow" id="todayLabel">RINGKASAN OPERASIONAL</div><h1 id="pageTitle">Dashboard</h1><p class="muted" id="pageSubtitle">Pantau kesehatan keuangan kafe Anda.</p></div>
+   <div class="top-actions"><select id="branchSelect" class="branch" aria-label="Pilih cabang"></select><span class="status" id="userLabel"></span><button class="secondary" id="refreshBtn">↻ Muat ulang</button><button class="secondary" id="logoutBtn">Keluar</button></div>
+  </header>
+  <div id="appMessage" class="message" role="status"></div>
+  <section class="page active" id="page-dashboard">
+   <div class="cards">
+    <div class="card"><div class="metric-label">Total pemasukan</div><div class="metric" id="totalIncome">Rp0</div></div>
+    <div class="card"><div class="metric-label">Total pengeluaran</div><div class="metric" id="totalExpense">Rp0</div></div>
+    <div class="card"><div class="metric-label">Arus kas bersih</div><div class="metric" id="netCash">Rp0</div></div>
+    <div class="card"><div class="metric-label">Nilai persediaan</div><div class="metric" id="stockValue">Rp0</div><div class="status" id="lowStockCount">0 stok rendah</div></div>
+   </div>
+   <div class="grid2">
+    <div class="panel"><div class="section-head"><h2>Transaksi terbaru</h2><button class="secondary" data-goto="transactions">Lihat semua</button></div><div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Deskripsi</th><th>Jenis</th><th>Jumlah</th></tr></thead><tbody id="recentRows"></tbody></table></div></div>
+    <div class="panel"><h2>Ringkasan cabang</h2><p class="muted" id="branchInfo">Data operasional cabang aktif.</p><div class="barlist" id="cashBars"></div></div>
+   </div>
+  </section>
+  <section class="page" id="page-transactions">
+   <div class="panel"><div class="section-head"><h2>Tambah transaksi</h2></div>
+    <form id="txnForm" class="formgrid">
+     <div class="field"><label>Tanggal</label><input id="txnDate" type="date" required></div>
+     <div class="field"><label>Jenis</label><select id="txnType"><option value="income">Pemasukan</option><option value="expense">Pengeluaran</option></select></div>
+     <div class="field"><label>Kategori</label><input id="txnCategory" required maxlength="80" placeholder="Penjualan / bahan baku"></div>
+     <div class="field"><label>Nominal (Rp)</label><input id="txnAmount" type="number" min="1" step="0.01" required></div>
+     <div class="field full"><label>Deskripsi</label><input id="txnDescription" required maxlength="240" placeholder="Keterangan transaksi"></div>
+     <div class="field full form-actions"><button type="submit">Simpan transaksi</button></div>
+    </form>
+   </div>
+   <div class="panel" style="margin-top:16px"><div class="section-head"><h2>Riwayat transaksi</h2><button class="secondary" id="exportTxn">Ekspor CSV</button></div><div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Deskripsi</th><th>Kategori</th><th>Jenis</th><th>Jumlah</th><th></th></tr></thead><tbody id="txnRows"></tbody></table></div></div>
+  </section>
+  <section class="page" id="page-inventory">
+   <div class="panel"><h2>Tambah persediaan</h2><form id="stockForm" class="formgrid">
+    <div class="field"><label>Nama barang</label><input id="stockName" required maxlength="120"></div><div class="field"><label>Kategori</label><input id="stockCategory" value="Bahan baku" maxlength="80"></div>
+    <div class="field"><label>Jumlah</label><input id="stockQty" type="number" min="0" step="0.001" value="0" required></div><div class="field"><label>Satuan</label><input id="stockUnit" value="kg" maxlength="24"></div>
+    <div class="field"><label>Minimum stok</label><input id="stockMin" type="number" min="0" step="0.001" value="1" required></div><div class="field"><label>Harga per satuan (Rp)</label><input id="stockCost" type="number" min="0" step="0.01" value="0" required></div>
+    <div class="field full form-actions"><button type="submit">Simpan barang</button></div></form></div>
+   <div class="panel" style="margin-top:16px"><div class="section-head"><h2>Daftar inventaris</h2><button class="secondary" id="exportStock">Ekspor CSV</button></div><div class="tablewrap"><table><thead><tr><th>Nama</th><th>Kategori</th><th>Jumlah</th><th>Minimum</th><th>Harga/unit</th><th>Nilai</th><th>Status</th><th></th></tr></thead><tbody id="stockRows"></tbody></table></div></div>
+  </section>
+  <section class="page" id="page-employees">
+   <div class="panel"><h2>Tambah pegawai</h2><form id="employeeForm" class="formgrid">
+    <div class="field"><label>Nama lengkap</label><input id="empName" required maxlength="120"></div><div class="field"><label>Jabatan</label><input id="empRole" value="Staff" maxlength="80"></div>
+    <div class="field"><label>Nomor telepon</label><input id="empPhone" maxlength="40"></div><div class="field"><label>Gaji bulanan (Rp)</label><input id="empSalary" type="number" min="0" step="0.01" value="0" required></div>
+    <div class="field full form-actions"><button type="submit">Simpan pegawai</button></div></form></div>
+   <div class="panel" style="margin-top:16px"><div class="section-head"><h2>Daftar pegawai</h2><button class="secondary" id="exportEmp">Ekspor CSV</button></div><div class="tablewrap"><table><thead><tr><th>Nama</th><th>Jabatan</th><th>Telepon</th><th>Gaji</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="empRows"></tbody></table></div></div>
+  </section>
+  <section class="page" id="page-reports">
+   <div class="cards"><div class="card"><div class="metric-label">Pemasukan</div><div class="metric" id="reportIncome">Rp0</div></div><div class="card"><div class="metric-label">Pengeluaran</div><div class="metric" id="reportExpense">Rp0</div></div><div class="card"><div class="metric-label">Selisih</div><div class="metric" id="reportNet">Rp0</div></div><div class="card"><div class="metric-label">Jumlah transaksi</div><div class="metric" id="reportCount">0</div></div></div>
+   <div class="panel"><div class="section-head"><h2>Filter laporan</h2><button class="secondary" id="exportReport">Ekspor CSV</button></div><div class="formgrid"><div class="field"><label>Dari tanggal</label><input id="reportFrom" type="date"></div><div class="field"><label>Sampai tanggal</label><input id="reportTo" type="date"></div><div class="field full form-actions"><button id="applyReport" type="button">Terapkan filter</button></div></div><div class="tablewrap" style="margin-top:16px"><table><thead><tr><th>Tanggal</th><th>Deskripsi</th><th>Kategori</th><th>Jenis</th><th>Jumlah</th></tr></thead><tbody id="reportRows"></tbody></table></div></div>
+  </section>
+ </main>
+</div>
 <script>
-/* Racik local-first edition: no external database or API required.
-   Data is stored in this browser's localStorage and is not synced across devices. */
 const $=id=>document.getElementById(id);
-const rupiah=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-const KEY='racik_cafe_finance_v1';
-let transactions=[],inventory=[],employees=[];
+const state={token:null,user:null,organization:null,branches:[],branchId:null,transactions:[],inventory:[],employees:[],summary:null};
+const money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0);
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
 function message(s){$('appMessage').textContent=s||''}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({transactions,inventory,employees}));return true}catch(e){message('Gagal menyimpan data. Periksa ruang penyimpanan browser.');return false}}
-function load(){try{const d=JSON.parse(localStorage.getItem(KEY)||'{}');transactions=Array.isArray(d.transactions)?d.transactions:[];inventory=Array.isArray(d.inventory)?d.inventory:[];employees=Array.isArray(d.employees)?d.employees:[]}catch(e){transactions=[];inventory=[];employees=[];message('Data lokal tidak dapat dibaca.')}
+function authMessage(s){$('authMessage').textContent=s||''}
+function showLogin(){ $('authView').classList.remove('hidden');$('appView').classList.add('hidden'); }
+function showApp(){ $('authView').classList.add('hidden');$('appView').classList.remove('hidden'); }
+function headers(extra={}){return {'Content-Type':'application/json',...(state.token?{Authorization:'Bearer '+state.token}:{}),...(state.organization?{'x-organization-id':state.organization.id}:{}),...(state.branchId?{'x-branch-id':state.branchId}:{}),...extra};}
+async function api(path,options={}) {
+ const opts={...options,credentials:'same-origin',headers:headers(options.headers||{})};
+ let response=await fetch('/api'+path,opts);
+ if(response.status===401 && !path.startsWith('/auth/') && !path.startsWith('/setup/')){
+  const refreshed=await fetch('/api/auth/refresh',{method:'POST',credentials:'same-origin'});
+  if(refreshed.ok){const data=await refreshed.json();state.token=data.accessToken;opts.headers=headers(options.headers||{});response=await fetch('/api'+path,opts);}
+  else {state.token=null;state.user=null;showLogin();throw new Error('Sesi berakhir. Silakan masuk kembali.');}
+ }
+ if(response.status===204)return null;
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok)throw new Error(data.error||'Permintaan gagal ('+response.status+')');
+ return data;
 }
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
-function downloadCSV(name,rows){if(!rows.length){message('Tidak ada data untuk diekspor.');return}const csv=rows.map(r=>r.map(v=>{let s=String(v??'');if(/^[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}).join(',')).join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');const url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-function emptyRow(cols,msg){return '<tr><td colspan="'+cols+'" class="empty">'+msg+'</td></tr>'}
-function page(name){document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id==='page-'+name));document.querySelectorAll('#nav button').forEach(e=>e.classList.toggle('active',e.dataset.page===name));const titles={dashboard:['Dashboard','Pantau kesehatan keuangan kafe Anda.'],transactions:['Transaksi','Catat setiap pemasukan dan pengeluaran.'],inventory:['Inventaris','Kelola bahan baku dan nilai persediaan.'],employees:['Pegawai','Kelola tim dan ringkasan gaji.'],reports:['Laporan','Filter dan ekspor data keuangan.']};$('pageTitle').textContent=titles[name][0];$('pageSubtitle').textContent=titles[name][1];if(name==='reports')renderReports()}
-document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
-document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.goto)));
-function renderAll(){renderDashboard();renderTransactions();renderInventory();renderEmployees();renderReports()}
+async function setupStatus(){
+ try{const r=await fetch('/api/setup/status');const d=await r.json();if(d.available){$('switchSetup').classList.remove('hidden');$('setupNotice').classList.remove('hidden');$('switchSetup').click();}}
+ catch{}
+}
+function switchAuth(setup){
+ $('loginForm').classList.toggle('hidden',setup);$('setupForm').classList.toggle('hidden',!setup);
+ $('switchSetup').classList.toggle('hidden',setup);$('switchLogin').classList.toggle('hidden',!setup);
+ $('setupNotice').classList.toggle('hidden',!setup);
+ $('authTitle').textContent=setup?'Buat akun pemilik':'Masuk ke Racik';
+ $('authSubtitle').textContent=setup?'Siapkan organisasi dan akun owner pertama.':'Kelola keuangan dan operasional kafe dalam satu tempat.';
+ authMessage('');
+}
+$('switchSetup').onclick=()=>switchAuth(true);$('switchLogin').onclick=()=>switchAuth(false);
+$('loginForm').onsubmit=async e=>{
+ e.preventDefault();authMessage('Memeriksa akun...');
+ try{
+  const data=await fetch('/api/auth/login',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('loginEmail').value,password:$('loginPassword').value,organizationId:$('loginOrg').value.trim()||undefined})}).then(async r=>{const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Login gagal');return d});
+  state.token=data.accessToken;state.user=data.user;
+  if(data.user.length>1){state.organization={id:data.user[0].organizationId,name:data.user[0].organizationName};}
+  else state.organization={id:data.user[0].organizationId,name:data.user[0].organizationName};
+  await enterApp();
+ }catch(err){authMessage(err.message);if(err.message==='organization_id_required')$('orgLoginField').classList.remove('hidden');}
+};
+$('setupForm').onsubmit=async e=>{
+ e.preventDefault();authMessage('Membuat organisasi dan akun pemilik...');
+ try{
+  const response=await fetch('/api/setup/owner',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','x-bootstrap-secret':$('setupSecret').value},body:JSON.stringify({organizationName:$('orgName').value,ownerName:$('ownerName').value,email:$('ownerEmail').value,password:$('ownerPassword').value})});
+  const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Setup gagal');
+  $('loginEmail').value=$('ownerEmail').value;$('loginPassword').value=$('ownerPassword').value;$('loginOrg').value=data.organizationId;
+  $('setupSecret').value='';$('ownerPassword').value='';switchAuth(false);$('orgLoginField').classList.remove('hidden');
+  authMessage('Akun berhasil dibuat. Silakan masuk menggunakan email dan password pemilik.');
+ }catch(err){authMessage(err.message);}
+};
+async function enterApp(){
+ const data=await api('/bootstrap');
+ state.organization=data.organization;state.branches=data.branches;
+ if(!state.branches.length)throw new Error('Akun belum memiliki cabang. Hubungi owner.');
+ state.branchId=state.branches[0].id;
+ $('branchSelect').innerHTML=state.branches.map(b=>'<option value="'+safe(b.id)+'">'+safe(b.name)+'</option>').join('');
+ $('userLabel').textContent=(state.user?.[0]?.fullName||'Pengguna')+' · '+(state.user?.[0]?.role||'');
+ $('todayLabel').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ showApp();await loadAll();
+}
+async function restoreSession(){
+ try{
+  const r=await fetch('/api/auth/refresh',{method:'POST',credentials:'same-origin'});
+  if(!r.ok)return;const d=await r.json();state.token=d.accessToken;state.user=d.user;
+  const m=d.user[0];state.organization={id:m.organizationId,name:m.organizationName};await enterApp();
+ }catch(e){showLogin();}
+}
+function page(name){
+ document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+name));
+ document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===name));
+ const titles={dashboard:['Dashboard','Pantau kesehatan keuangan kafe Anda.'],transactions:['Transaksi','Catat pemasukan dan pengeluaran.'],inventory:['Inventaris','Kelola bahan baku dan nilai persediaan.'],employees:['Pegawai','Kelola tim dan ringkasan gaji.'],reports:['Laporan','Filter dan ekspor data keuangan.']};
+ $('pageTitle').textContent=titles[name][0];$('pageSubtitle').textContent=titles[name][1];
+ if(name==='reports')renderReports();
+}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>page(b.dataset.page));
+document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>page(b.dataset.goto));
+$('branchSelect').onchange=async()=>{state.branchId=$('branchSelect').value;await loadAll();};
+async function loadAll(){
+ try{
+  const [summary,transactions,inventory,employees]=await Promise.all([
+   api('/summary'),api('/transactions'),api('/inventory'),api('/employees')
+  ]);
+  state.summary=summary;state.transactions=transactions.items;state.inventory=inventory.items;state.employees=employees.items;
+  renderAll();message('Data berhasil disinkronkan dengan database pusat.');
+ }catch(e){message(e.message);}
+}
+function emptyRow(n,s){return '<tr><td colspan="'+n+'" class="empty">'+s+'</td></tr>';}
+function csv(name,rows){
+ const content=rows.map(row=>row.map(v=>{let s=String(v??'');if(/^[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}).join(',')).join('\r\n');
+ const url=URL.createObjectURL(new Blob(['\ufeff'+content],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);
+}
 function renderDashboard(){
- const inc=transactions.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount),0),out=transactions.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount),0),stock=inventory.reduce((a,i)=>a+Number(i.qty)*Number(i.cost),0),low=inventory.filter(i=>Number(i.qty)<=Number(i.min)).length;
- $('totalIncome').textContent=rupiah(inc);$('totalExpense').textContent=rupiah(out);$('netCash').textContent=rupiah(inc-out);$('stockValue').textContent=rupiah(stock);$('lowStockCount').textContent=low+' item mencapai batas minimum';
- $('recentRows').innerHTML=[...transactions].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6).map(t=>'<tr><td>'+esc(t.date)+'</td><td>'+esc(t.description)+'</td><td>'+(t.type==='income'?'<span class="positive">Masuk</span>':'<span class="negative">Keluar</span>')+'</td><td class="'+(t.type==='income'?'positive':'negative')+'">'+rupiah(t.amount)+'</td></tr>').join('')||emptyRow(4,'Belum ada transaksi.');
- const months=[],now=new Date();for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),ts=transactions.filter(t=>t.date.startsWith(key));months.push({label:d.toLocaleDateString('id-ID',{month:'short'}),inc:ts.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount),0),out:ts.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount),0)})}
- const max=Math.max(1,...months.flatMap(m=>[m.inc,m.out]));$('cashBars').innerHTML=months.map(m=>'<div><div class="barrow"><span>'+m.label+' masuk</span><div class="track"><div class="fill" style="width:'+m.inc/max*100+'%"></div></div><b>'+rupiah(m.inc)+'</b></div><div class="barrow" style="margin-top:5px"><span>'+m.label+' keluar</span><div class="track"><div class="fill exp" style="width:'+m.out/max*100+'%"></div></div><b>'+rupiah(m.out)+'</b></div></div>').join('')
+ const s=state.summary||{},t=s.totals||{},i=s.inventory||{};
+ $('totalIncome').textContent=money(t.income);$('totalExpense').textContent=money(t.expense);$('netCash').textContent=money(Number(t.income)-Number(t.expense));
+ $('stockValue').textContent=money(i.stock_value);$('lowStockCount').textContent=(i.low_stock||0)+' item stok rendah';
+ $('recentRows').innerHTML=(s.recent||[]).map(x=>'<tr><td>'+safe(x.occurred_on?.slice(0,10))+'</td><td>'+safe(x.description)+'</td><td>'+(x.type==='income'?'<span class="positive">Masuk</span>':'<span class="negative">Keluar</span>')+'</td><td>'+money(x.amount)+'</td></tr>').join('')||emptyRow(4,'Belum ada transaksi.');
+ $('branchInfo').textContent=state.branches.find(b=>b.id===state.branchId)?.name||'Cabang aktif';
+ const max=Math.max(1,Number(t.income)||0,Number(t.expense)||0);
+ $('cashBars').innerHTML='<div class="barrow"><span>Pemasukan</span><div class="track"><div class="fill" style="width:'+Number(t.income)/max*100+'%"></div></div><b>'+money(t.income)+'</b></div><div class="barrow"><span>Pengeluaran</span><div class="track"><div class="fill exp" style="width:'+Number(t.expense)/max*100+'%"></div></div><b>'+money(t.expense)+'</b></div>';
 }
 function renderTransactions(){
- $('txnRows').innerHTML=[...transactions].sort((a,b)=>b.date.localeCompare(a.date)).map(t=>'<tr><td>'+esc(t.date)+'</td><td>'+esc(t.description)+'</td><td>'+esc(t.category)+'</td><td>'+(t.type==='income'?'Masuk':'Keluar')+'</td><td class="'+(t.type==='income'?'positive':'negative')+'">'+rupiah(t.amount)+'</td><td><button class="danger" data-del-txn="'+esc(t.id)+'">Hapus</button></td></tr>').join('')||emptyRow(6,'Belum ada transaksi.');
- document.querySelectorAll('[data-del-txn]').forEach(b=>b.onclick=()=>{if(confirm('Hapus transaksi ini?')){transactions=transactions.filter(t=>t.id!==b.dataset.delTxn);save();renderAll();message('Transaksi dihapus.')}})
- $('exportTxn').onclick=()=>downloadCSV('transaksi-kafe.csv',[['Tanggal','Deskripsi','Kategori','Jenis','Jumlah'],...transactions.map(t=>[t.date,t.description,t.category,t.type==='income'?'Pemasukan':'Pengeluaran',t.amount])])
+ $('txnRows').innerHTML=state.transactions.map(t=>'<tr><td>'+safe(String(t.occurred_on).slice(0,10))+'</td><td>'+safe(t.description)+'</td><td>'+safe(t.category)+'</td><td>'+(t.type==='income'?'Masuk':'Keluar')+'</td><td class="'+(t.type==='income'?'positive':'negative')+'">'+money(t.amount)+'</td><td><button class="danger" data-del-txn="'+safe(t.id)+'">Hapus</button></td></tr>').join('')||emptyRow(6,'Belum ada transaksi.');
+ document.querySelectorAll('[data-del-txn]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus transaksi ini?'))try{await api('/transactions/'+b.dataset.delTxn,{method:'DELETE'});await loadAll();}catch(e){message(e.message);}});
+ $('exportTxn').onclick=()=>csv('transaksi-racik.csv',[['Tanggal','Deskripsi','Kategori','Jenis','Jumlah'],...state.transactions.map(t=>[t.occurred_on,t.description,t.category,t.type,t.amount])]);
 }
 function renderInventory(){
- $('stockRows').innerHTML=inventory.map(i=>'<tr><td>'+esc(i.name)+'</td><td>'+esc(i.category)+'</td><td>'+esc(i.qty)+' '+esc(i.unit)+'</td><td>'+esc(i.min)+' '+esc(i.unit)+'</td><td>'+rupiah(i.cost)+'</td><td>'+rupiah(Number(i.qty)*Number(i.cost))+'</td><td><span class="pill '+(Number(i.qty)<=Number(i.min)?'low':'')+'">'+(Number(i.qty)<=Number(i.min)?'Stok rendah':'Aman')+'</span></td><td><button class="danger" data-del-stock="'+esc(i.id)+'">Hapus</button></td></tr>').join('')||emptyRow(8,'Belum ada item persediaan.');
- document.querySelectorAll('[data-del-stock]').forEach(b=>b.onclick=()=>{if(confirm('Hapus item persediaan ini?')){inventory=inventory.filter(i=>i.id!==b.dataset.delStock);save();renderAll();message('Item dihapus.')}})
- $('exportStock').onclick=()=>downloadCSV('inventaris-kafe.csv',[['Nama','Kategori','Jumlah','Satuan','Minimum','Harga/unit','Nilai stok'],...inventory.map(i=>[i.name,i.category,i.qty,i.unit,i.min,i.cost,Number(i.qty)*Number(i.cost)])])
+ $('stockRows').innerHTML=state.inventory.map(i=>'<tr><td>'+safe(i.name)+'</td><td>'+safe(i.category)+'</td><td>'+i.quantity+' '+safe(i.unit)+'</td><td>'+i.minimum_quantity+' '+safe(i.unit)+'</td><td>'+money(i.unit_cost)+'</td><td>'+money(Number(i.quantity)*Number(i.unit_cost))+'</td><td><span class="pill '+(Number(i.quantity)<=Number(i.minimum_quantity)?'low':'')+'">'+(Number(i.quantity)<=Number(i.minimum_quantity)?'Stok rendah':'Aman')+'</span></td><td><button class="danger" data-del-stock="'+safe(i.id)+'">Hapus</button></td></tr>').join('')||emptyRow(8,'Belum ada item persediaan.');
+ document.querySelectorAll('[data-del-stock]').forEach(b=>b.onclick=async()=>{if(confirm('Arsipkan item ini?'))try{await api('/inventory/'+b.dataset.delStock,{method:'DELETE'});await loadAll();}catch(e){message(e.message);}});
+ $('exportStock').onclick=()=>csv('inventaris-racik.csv',[['Nama','Kategori','Jumlah','Satuan','Minimum','Harga/unit'],...state.inventory.map(i=>[i.name,i.category,i.quantity,i.unit,i.minimum_quantity,i.unit_cost])]);
 }
 function renderEmployees(){
- $('empRows').innerHTML=employees.map(e=>'<tr><td>'+esc(e.name)+'</td><td>'+esc(e.role)+'</td><td>'+esc(e.phone||'-')+'</td><td>'+rupiah(e.salary)+'</td><td><span class="pill '+(e.active?'':'low')+'">'+(e.active?'Aktif':'Nonaktif')+'</span></td><td><button class="secondary" data-toggle-emp="'+esc(e.id)+'">'+(e.active?'Nonaktifkan':'Aktifkan')+'</button> <button class="danger" data-del-emp="'+esc(e.id)+'">Hapus</button></td></tr>').join('')||emptyRow(6,'Belum ada data pegawai.');
- document.querySelectorAll('[data-toggle-emp]').forEach(b=>b.onclick=()=>{const e=employees.find(x=>x.id===b.dataset.toggleEmp);if(e)e.active=!e.active;save();renderAll();message('Status pegawai diperbarui.')});
- document.querySelectorAll('[data-del-emp]').forEach(b=>b.onclick=()=>{if(confirm('Hapus data pegawai ini?')){employees=employees.filter(e=>e.id!==b.dataset.delEmp);save();renderAll();message('Data pegawai dihapus.')}})
- $('exportEmp').onclick=()=>downloadCSV('pegawai-kafe.csv',[['Nama','Jabatan','Telepon','Gaji bulanan','Status'],...employees.map(e=>[e.name,e.role,e.phone,e.salary,e.active?'Aktif':'Nonaktif'])])
+ $('empRows').innerHTML=state.employees.map(e=>'<tr><td>'+safe(e.full_name)+'</td><td>'+safe(e.position)+'</td><td>'+safe(e.phone||'-')+'</td><td>'+money(e.monthly_salary)+'</td><td><span class="pill '+(e.is_active?'':'low')+'">'+(e.is_active?'Aktif':'Nonaktif')+'</span></td><td><button class="secondary" data-toggle-emp="'+safe(e.id)+'">'+(e.is_active?'Nonaktifkan':'Aktifkan')+'</button> <button class="danger" data-del-emp="'+safe(e.id)+'">Hapus</button></td></tr>').join('')||emptyRow(6,'Belum ada pegawai.');
+ document.querySelectorAll('[data-toggle-emp]').forEach(b=>b.onclick=async()=>{const e=state.employees.find(x=>x.id===b.dataset.toggleEmp);try{await api('/employees/'+e.id+'/status',{method:'PATCH',body:JSON.stringify({isActive:!e.is_active})});await loadAll();}catch(err){message(err.message);}});
+ document.querySelectorAll('[data-del-emp]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus data pegawai?'))try{await api('/employees/'+b.dataset.delEmp,{method:'DELETE'});await loadAll();}catch(e){message(e.message);}});
+ $('exportEmp').onclick=()=>csv('pegawai-racik.csv',[['Nama','Jabatan','Telepon','Gaji','Status'],...state.employees.map(e=>[e.full_name,e.position,e.phone,e.monthly_salary,e.is_active?'Aktif':'Nonaktif'])]);
 }
-function reportData(){const from=$('reportFrom').value,to=$('reportTo').value;return [...transactions].filter(t=>(!from||t.date>=from)&&(!to||t.date<=to)).sort((a,b)=>b.date.localeCompare(a.date))}
-function renderReports(){if(!$('reportRows'))return;const list=reportData(),inc=list.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount),0),out=list.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount),0);$('reportIncome').textContent=rupiah(inc);$('reportExpense').textContent=rupiah(out);$('reportNet').textContent=rupiah(inc-out);$('reportCount').textContent=list.length;$('reportRows').innerHTML=list.map(t=>'<tr><td>'+esc(t.date)+'</td><td>'+esc(t.description)+'</td><td>'+esc(t.category)+'</td><td>'+(t.type==='income'?'Pemasukan':'Pengeluaran')+'</td><td>'+rupiah(t.amount)+'</td></tr>').join('')||emptyRow(5,'Tidak ada transaksi pada periode ini.');$('exportReport').onclick=()=>downloadCSV('laporan-keuangan-kafe.csv',[['Tanggal','Deskripsi','Kategori','Jenis','Jumlah'],...list.map(t=>[t.date,t.description,t.category,t.type==='income'?'Pemasukan':'Pengeluaran',t.amount])])}
+function renderReports(){
+ const from=$('reportFrom').value,to=$('reportTo').value;
+ const rows=state.transactions.filter(t=>{const d=String(t.occurred_on).slice(0,10);return(!from||d>=from)&&(!to||d<=to);});
+ const inc=rows.filter(t=>t.type==='income').reduce((a,t)=>a+Number(t.amount),0),exp=rows.filter(t=>t.type==='expense').reduce((a,t)=>a+Number(t.amount),0);
+ $('reportIncome').textContent=money(inc);$('reportExpense').textContent=money(exp);$('reportNet').textContent=money(inc-exp);$('reportCount').textContent=rows.length;
+ $('reportRows').innerHTML=rows.map(t=>'<tr><td>'+safe(String(t.occurred_on).slice(0,10))+'</td><td>'+safe(t.description)+'</td><td>'+safe(t.category)+'</td><td>'+t.type+'</td><td>'+money(t.amount)+'</td></tr>').join('')||emptyRow(5,'Tidak ada transaksi dalam periode ini.');
+ $('exportReport').onclick=()=>csv('laporan-racik.csv',[['Tanggal','Deskripsi','Kategori','Jenis','Jumlah'],...rows.map(t=>[t.occurred_on,t.description,t.category,t.type,t.amount])]);
+}
+function renderAll(){renderDashboard();renderTransactions();renderInventory();renderEmployees();renderReports();}
 $('txnDate').value=today();$('reportTo').value=today();$('reportFrom').value=today().slice(0,7)+'-01';
-$('txnForm').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('txnAmount').value);if(!Number.isFinite(amount)||amount<=0){message('Nominal transaksi harus lebih dari nol.');return}transactions.push({id:uid(),date:$('txnDate').value,type:$('txnType').value,category:$('txnCategory').value,description:$('txnDescription').value.trim(),amount});save();e.target.reset();$('txnDate').value=today();renderAll();page('transactions');message('Transaksi berhasil disimpan di browser ini.')});
-$('stockForm').addEventListener('submit',e=>{e.preventDefault();inventory.push({id:uid(),name:$('stockName').value.trim(),category:$('stockCategory').value.trim(),qty:Number($('stockQty').value),unit:$('stockUnit').value.trim(),min:Number($('stockMin').value),cost:Number($('stockCost').value)});save();e.target.reset();$('stockCategory').value='Bahan baku';$('stockQty').value='0';$('stockUnit').value='kg';$('stockMin').value='1';$('stockCost').value='0';renderAll();page('inventory');message('Item persediaan berhasil disimpan.')});
-$('employeeForm').addEventListener('submit',e=>{e.preventDefault();employees.push({id:uid(),name:$('empName').value.trim(),role:$('empRole').value.trim(),phone:$('empPhone').value.trim(),salary:Number($('empSalary').value),active:true});save();e.target.reset();$('empRole').value='Staff';$('empSalary').value='0';renderAll();page('employees');message('Data pegawai berhasil disimpan.')});
-$('applyReport').addEventListener('click',renderReports);
-$('refreshBtn').addEventListener('click',()=>{load();renderAll();message('Data lokal dimuat ulang.')});
-$('logoutBtn').textContent='Info penyimpanan';
-$('logoutBtn').addEventListener('click',()=>alert('Racik berjalan tanpa akun. Data hanya tersimpan di localStorage browser/perangkat ini. Gunakan Ekspor CSV untuk membuat cadangan. Jangan gunakan mode ini untuk data sensitif atau jika membutuhkan sinkronisasi antarperangkat.'));
-
-load();renderAll();$('userLabel').textContent='Mode lokal';$('todayLabel').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+$('txnForm').onsubmit=async e=>{e.preventDefault();try{await api('/transactions',{method:'POST',body:JSON.stringify({type:$('txnType').value,category:$('txnCategory').value,description:$('txnDescription').value,amount:Number($('txnAmount').value),occurredOn:$('txnDate').value})});e.target.reset();$('txnDate').value=today();await loadAll();message('Transaksi tersimpan di database pusat.');}catch(err){message(err.message);}};
+$('stockForm').onsubmit=async e=>{e.preventDefault();try{await api('/inventory',{method:'POST',body:JSON.stringify({name:$('stockName').value,category:$('stockCategory').value,quantity:Number($('stockQty').value),unit:$('stockUnit').value,minimumQuantity:Number($('stockMin').value),unitCost:Number($('stockCost').value)})});e.target.reset();$('stockCategory').value='Bahan baku';$('stockQty').value='0';$('stockUnit').value='kg';$('stockMin').value='1';$('stockCost').value='0';await loadAll();message('Inventaris tersimpan di database pusat.');}catch(err){message(err.message);}};
+$('employeeForm').onsubmit=async e=>{e.preventDefault();try{await api('/employees',{method:'POST',body:JSON.stringify({fullName:$('empName').value,position:$('empRole').value,phone:$('empPhone').value,monthlySalary:Number($('empSalary').value)})});e.target.reset();$('empRole').value='Staff';$('empSalary').value='0';await loadAll();message('Data pegawai tersimpan di database pusat.');}catch(err){message(err.message);}};
+$('applyReport').onclick=renderReports;$('refreshBtn').onclick=loadAll;
+$('logoutBtn').onclick=async()=>{try{await fetch('/api/auth/logout',{method:'POST',credentials:'same-origin'});}finally{state.token=null;state.user=null;state.organization=null;state.branchId=null;showLogin();}};
+$('txnDate').value=today();
+showLogin();setupStatus();restoreSession();
 </script>
-<script>
-const $=id=>document.getElementById(id), KEY='racik_cafe_finance_v1';
-const rupiah=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const today=()=>{let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-let transactions=[],inventory=[],employees=[];
-function msg(s){$('appMessage').textContent=s||''} function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({transactions,inventory,employees}))}catch(e){msg('Penyimpanan gagal. Ekspor data dan periksa ruang browser.')}}
-function load(){try{let d=JSON.parse(localStorage.getItem(KEY)||'{}');transactions=Array.isArray(d.transactions)?d.transactions:[];inventory=Array.isArray(d.inventory)?d.inventory:[];employees=Array.isArray(d.employees)?d.employees:[]}catch(e){transactions=[];inventory=[];employees=[]}}
-function csv(name,rows){if(!rows.length){msg('Tidak ada data untuk diekspor.');return}let out=rows.map(r=>r.map(v=>{let s=String(v??'');if(/^[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}).join(',')).join('\r\n'),u=URL.createObjectURL(new Blob(['\ufeff'+out],{type:'text/csv;charset=utf-8;'})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
-function empty(n,s){return '<tr><td colspan="'+n+'" class="empty">'+s+'</td></tr>'}
-function page(n){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+n));document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===n));let t={dashboard:['Dashboard','Pantau kesehatan keuangan kafe Anda.'],transactions:['Transaksi','Catat setiap pemasukan dan pengeluaran.'],inventory:['Inventaris','Kelola bahan baku dan nilai persediaan.'],employees:['Pegawai','Kelola tim dan ringkasan gaji.'],reports:['Laporan','Filter dan ekspor data keuangan.']}[n];$('pageTitle').textContent=t[0];$('pageSubtitle').textContent=t[1];if(n==='reports')renderReports()}
-document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>page(b.dataset.page));document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>page(b.dataset.goto));
-function renderDashboard(){let inc=transactions.filter(t=>t.type==='income').reduce((a,t)=>a+ +t.amount,0),out=transactions.filter(t=>t.type==='expense').reduce((a,t)=>a+ +t.amount,0),sv=inventory.reduce((a,i)=>a+ +i.qty*(+i.cost),0),low=inventory.filter(i=>+i.qty<=+i.min).length;$('totalIncome').textContent=rupiah(inc);$('totalExpense').textContent=rupiah(out);$('netCash').textContent=rupiah(inc-out);$('stockValue').textContent=rupiah(sv);$('lowStockCount').textContent=low+' item mencapai batas minimum';$('recentRows').innerHTML=[...transactions].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6).map(t=>'<tr><td>'+esc(t.date)+'</td><td>'+esc(t.description)+'</td><td>'+(t.type==='income'?'<span class="positive">Masuk</span>':'<span class="negative">Keluar</span>')+'</td><td class="'+(t.type==='income'?'positive':'negative')+'">'+rupiah(t.amount)+'</td></tr>').join('')||empty(4,'Belum ada transaksi.');let ms=[],now=new Date();for(let k=5;k>=0;k--){let d=new Date(now.getFullYear(),now.getMonth()-k,1),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),arr=transactions.filter(t=>t.date.startsWith(key));ms.push({l:d.toLocaleDateString('id-ID',{month:'short'}),i:arr.filter(t=>t.type==='income').reduce((a,t)=>a+ +t.amount,0),o:arr.filter(t=>t.type==='expense').reduce((a,t)=>a+ +t.amount,0)})}let max=Math.max(1,...ms.flatMap(m=>[m.i,m.o]));$('cashBars').innerHTML=ms.map(m=>'<div><div class="barrow"><span>'+m.l+' masuk</span><div class="track"><div class="fill" style="width:'+m.i/max*100+'%"></div></div><b>'+rupiah(m.i)+'</b></div><div class="barrow" style="margin-top:5px"><span>'+m.l+' keluar</span><div class="track"><div class="fill exp" style="width:'+m.o/max*100+'%"></div></div><b>'+rupiah(m.o)+'</b></div></div>').join('')}
-function renderTransactions(){$('txnRows').innerHTML=[...transactions].sort((a,b)=>b.date.localeCompare(a.date)).map(t=>'<tr><td>'+esc(t.date)+'</td><td>'+esc(t.description)+'</td><td>'+esc(t.category)+'</td><td>'+(t.type==='income'?'Masuk':'Keluar')+'</td><td class="'+(t.type==='income'?'positive':'negative')+'">'+rupiah(t.amount)+'</td><td><button class="danger" data-del-txn="'+esc(t.id)+'">Hapus</button></td></tr>').join('')||empty(6,'Belum ada transaksi.');document.querySelectorAll('[data-del-txn]').forEach(b=>b.onclick=()=>{if(confirm('Hapus transaksi ini?')){transactions=transactions.filter(t=>t.id!==b.dataset.delTxn);save();renderAll();msg('Transaksi dihapus.')}});$('exportTxn').onclick=()=>csv('transaksi-kafe.csv',[['Tanggal','Deskripsi','Kategori','Jenis','Jumlah'],...transactions.map(t=>[t.date,t.description,t.category,t.type==='income'?'Pemasukan':'Pengeluaran',t.amount])])}
-function renderInventory(){$('stockRows').innerHTML=inventory.map(i=>'<tr><td>'+esc(i.name)+'</td><td>'+esc(i.category)+'</td><td>'+esc(i.qty)+' '+esc(i.unit)+'</td><td>'+esc(i.min)+' '+esc(i.unit)+'</td><td>'+rupiah(i.cost)+'</td><td>'+rupiah(i.qty*i.cost)+'</td><td><span class="pill '+(i.qty<=i.min?'low':'')+'">'+(i.qty<=i.min?'Stok rendah':'Aman')+'</span></td><td><button class="danger" data-del-stock="'+esc(i.id)+'">Hapus</button></td></tr>').join('')||empty(8,'Belum ada item persediaan.');document.querySelectorAll('[data-del-stock]').forEach(b=>b.onclick=()=>{if(confirm('Hapus item ini?')){inventory=inventory.filter(i=>i.id!==b.dataset.delStock);save();renderAll();msg('Item dihapus.')}});$('exportStock').onclick=()=>csv('inventaris-kafe.csv',[['Nama','Kategori','Jumlah','Satuan','Minimum','Harga/unit','Nilai stok'],...inventory.map(i=>[i.name,i.category,i.qty,i.unit,i.min,i.cost,i.qty*i.cost])])}
-function renderEmployees(){$('empRows').innerHTML=employees.map(e=>'<tr><td>'+esc(e.name)+'</td><td>'+esc(e.role)+'</td><td>'+esc(e.phone||'-')+'</td><td>'+rupiah(e.salary)+'</td><td><span class="pill '+(e.active?'':'low')+'">'+(e.active?'Aktif':'Nonaktif')+'</span></td><td><button class="secondary" data-toggle-emp="'+esc(e.id)+'">'+(e.active?'Nonaktifkan':'Aktifkan')+'</button> <button class="danger" data-del-emp="'+esc(e.id)+'">Hapus</button></td></tr>').join('')||empty(6,'Belum ada data pegawai.');document.querySelectorAll('[data-toggle-emp]').forEach(b=>b.onclick=()=>{let e=employees.find(x=>x.id===b.dataset.toggleEmp);if(e)e.active=!e.active;save();renderAll();msg('Status pegawai diperbarui.')});document.querySelectorAll('[data-del-emp]').forEach(b=>b.onclick=()=>{if(confirm('Hapus data pegawai ini?')){employees=employees.filter(e=>e.id!==b.dataset.delEmp);save();renderAll();msg('Data pegawai dihapus.')}});$('exportEmp').onclick=()=>csv('pegawai-kafe.csv',[['Nama','Jabatan','Telepon','Gaji bulanan','Status'],...employees.map(e=>[e.name,e.role,e.phone,e.salary,e.active?'Aktif':'Nonaktif'])])}
-function reportData(){let f=$('reportFrom').value,t=$('reportTo').value;return [...transactions].filter(x=>(!f||x.date>=f)&&(!t||x.date<=t)).sort((a,b)=>b.date.localeCompare(a.date))}
-function renderReports(){let el=$('reportRows');if(!el)return;let arr=reportData(),i=arr.filter(x=>x.type==='income').reduce((a,x)=>a+ +x.amount,0),o=arr.filter(x=>x.type==='expense').reduce((a,x)=>a+ +x.amount,0);$('reportIncome').textContent=rupiah(i);$('reportExpense').textContent=rupiah(o);$('reportNet').textContent=rupiah(i-o);$('reportCount').textContent=arr.length;$('reportRows').innerHTML=arr.map(x=>'<tr><td>'+esc(x.date)+'</td><td>'+esc(x.description)+'</td><td>'+esc(x.category)+'</td><td>'+(x.type==='income'?'Pemasukan':'Pengeluaran')+'</td><td>'+rupiah(x.amount)+'</td></tr>').join('')||empty(5,'Tidak ada transaksi pada periode ini.');$('exportReport').onclick=()=>csv('laporan-keuangan-kafe.csv',[['Tanggal','Deskripsi','Kategori','Jenis','Jumlah'],...arr.map(x=>[x.date,x.description,x.category,x.type==='income'?'Pemasukan':'Pengeluaran',x.amount])])}
-function renderAll(){renderDashboard();renderTransactions();renderInventory();renderEmployees();renderReports()}
-$('txnDate').value=today();$('reportTo').value=today();$('reportFrom').value=today().slice(0,7)+'-01';
-$('txnForm').onsubmit=e=>{e.preventDefault();let n=+$('txnAmount').value;if(!Number.isFinite(n)||n<=0){msg('Nominal harus lebih dari nol.');return}transactions.push({id:uid(),date:$('txnDate').value,type:$('txnType').value,category:$('txnCategory').value,description:$('txnDescription').value.trim(),amount:n});save();e.target.reset();$('txnDate').value=today();renderAll();page('transactions');msg('Transaksi tersimpan di browser ini.')};
-$('stockForm').onsubmit=e=>{e.preventDefault();inventory.push({id:uid(),name:$('stockName').value.trim(),category:$('stockCategory').value.trim(),qty:+$('stockQty').value,unit:$('stockUnit').value.trim(),min:+$('stockMin').value,cost:+$('stockCost').value});save();e.target.reset();$('stockCategory').value='Bahan baku';$('stockQty').value='0';$('stockUnit').value='kg';$('stockMin').value='1';$('stockCost').value='0';renderAll();page('inventory');msg('Item persediaan tersimpan.')};
-$('employeeForm').onsubmit=e=>{e.preventDefault();employees.push({id:uid(),name:$('empName').value.trim(),role:$('empRole').value.trim(),phone:$('empPhone').value.trim(),salary:+$('empSalary').value,active:true});save();e.target.reset();$('empRole').value='Staff';$('empSalary').value='0';renderAll();page('employees');msg('Pegawai tersimpan.')};
-$('applyReport').onclick=renderReports;$('refreshBtn').onclick=()=>{load();renderAll();msg('Data lokal dimuat ulang.')};$('logoutBtn').textContent='Info penyimpanan';$('logoutBtn').onclick=()=>alert('Tidak ada akun/server. Data hanya ada di browser/perangkat ini. Ekspor CSV untuk cadangan. Data tidak tersinkron ke perangkat lain.');
-load();renderAll();$('userLabel').textContent='Mode lokal';$('todayLabel').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-</script></body></html>
+</body></html>
