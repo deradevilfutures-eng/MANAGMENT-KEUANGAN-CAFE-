@@ -1,6 +1,6 @@
 # Racik — Manajemen Kafe
 
-Aplikasi web responsif untuk pencatatan keuangan dan operasional kafe. Frontend yang ada saat ini masih berjalan secara lokal di browser; fondasi backend PostgreSQL sedang disiapkan secara bertahap.
+Aplikasi web responsif untuk pencatatan keuangan dan operasional kafe. Frontend yang ada saat ini masih berjalan secara lokal di browser; backend dan database terpusat sedang disiapkan bertahap.
 
 ## Fitur frontend saat ini
 - Dashboard pemasukan, pengeluaran, arus kas bersih, nilai stok, dan grafik 6 bulan
@@ -11,60 +11,57 @@ Aplikasi web responsif untuk pencatatan keuangan dan operasional kafe. Frontend 
 - Ekspor transaksi, inventaris, pegawai, dan laporan ke CSV
 - Tampilan responsif untuk desktop, tablet, dan ponsel
 
-## Status penyimpanan saat ini
-- Versi frontend yang sudah ada menyimpan data pada `localStorage` browser/perangkat.
-- Data belum tersinkron antarperangkat atau antar-cabang.
-- Belum ada autentikasi server, POS, pemesanan QR, maupun pembayaran digital yang aktif.
-- Jangan gunakan data browser sebagai satu-satunya catatan transaksi operasional multi-user.
+## Status implementasi
+- Frontend lama masih menyimpan data di `localStorage`; belum tersinkron antarperangkat.
+- Fondasi PostgreSQL Racik telah diterapkan pada proyek Supabase yang dipilih.
+- Skema mencakup organisasi, cabang, pengguna, peran, akses cabang, meja, token QR, audit log, dan sesi autentikasi.
+- Backend Node.js tersedia di `backend/`, tetapi belum dipublikasikan ke hosting dan belum dikonfigurasi dengan kredensial database produksi.
+- Belum ada UI login, POS, pemesanan QR, pembayaran digital, atau integrasi data frontend ke API yang aktif.
 
-## Fondasi backend (Phase 1)
-Struktur awal backend dan database tersedia pada:
-- `backend/` — API Node.js/Express dan endpoint pemeriksaan kesehatan.
-- `backend/.env.example` — contoh konfigurasi lokal; isi rahasia hanya di environment/secret manager.
-- `database/schema.sql` — skema PostgreSQL awal untuk organisasi, cabang, pengguna, peran, akses cabang, meja, token QR, dan audit log.
-- `docs/PHASE-1-ARCHITECTURE.md` — arsitektur, batas akses, keamanan, dan rencana deployment.
+## Database Supabase
+Proyek database: `MANAGMENT-KEUANGAN-CAFE-` (region EU North / Stockholm).
 
-### Menjalankan API secara lokal
-Persyaratan: Node.js 20+ dan PostgreSQL.
+Migration SQL tersimpan di:
+- `database/schema.sql`
+- `database/migrations/001_auth_sessions.sql`
+- `database/migrations/002_foreign_key_indexes.sql`
+
+Gunakan Supabase Dashboard → Connect untuk mengambil connection string. Untuk host backend IPv4-only, pilih **Session pooler** dan URI (port 5432). Supabase menjelaskan direct connection memerlukan IPv6 secara default, sedangkan shared pooler session mode mendukung IPv4: https://supabase.com/docs/guides/database/connecting-to-postgres
+
+Jangan commit `.env`, password database, publishable/secret key, atau token. Simpan `DATABASE_URL` hanya di environment variables layanan backend. Jangan pernah mengekspos password database atau Supabase secret/service-role key di frontend.
+
+RLS diaktifkan pada tabel fondasi. Tabel-tabel tersebut sengaja belum memiliki policy browser karena akses operasional direncanakan melalui backend Node.js tepercaya. Jangan menambahkan grant/policy publik tanpa desain otorisasi tenant dan cabang yang diuji.
+
+## Backend lokal
+Persyaratan: Node.js 20+ dan koneksi PostgreSQL.
 
 1. Masuk ke folder `backend`.
 2. Jalankan `npm install`.
-3. Salin `.env.example` menjadi `.env`, lalu isi `DATABASE_URL` dengan koneksi PostgreSQL lokal.
-4. Jalankan skema awal pada database baru menggunakan `database/schema.sql`.
-5. Jalankan `npm run dev`.
-6. Periksa `http://localhost:3000/health` dan `http://localhost:3000/health/ready`.
+3. Salin `.env.example` menjadi `.env`.
+4. Isi `DATABASE_URL` dengan URI Supabase Session pooler (untuk jaringan IPv4) atau Direct connection jika hosting mendukung IPv6.
+5. Isi `FRONTEND_ORIGINS` dengan origin GitHub Pages yang tepat dan origin lokal saat development.
+6. Jalankan `npm run dev`.
+7. Periksa `/health` dan `/health/ready`.
 
-Endpoint `/health` memeriksa proses API; `/health/ready` memeriksa koneksi database. Ini masih fondasi awal, bukan sistem produksi lengkap. Login, pengelolaan sesi, API bisnis, dan pengujian keamanan akan ditambahkan pada langkah berikutnya.
+API autentikasi fondasi:
+- `POST /api/auth/login`
+- `POST /api/auth/refresh`
+- `POST /api/auth/logout`
+- `GET /api/auth/me`
 
-## Arsitektur dan deployment
-GitHub Pages hanya meng-host frontend statis. API Node.js dan PostgreSQL harus dijalankan pada layanan terpisah. Belum ada hosting backend/database produksi atau kredensial layanan yang dikonfigurasi di repository ini. Lihat dokumen arsitektur Phase 1 sebelum memilih penyedia hosting.
+Bootstrap owner menggunakan `npm run create-owner` hanya setelah environment aman disiapkan. Gunakan password unik minimal 12 karakter dan jangan commit nilainya. Hapus variabel `OWNER_*` setelah bootstrap.
 
-## Deploy frontend ke GitHub Pages
-1. Buka **Settings → Pages** pada repository.
-2. Pada **Build and deployment**, pilih **GitHub Actions** sebagai source.
-3. Buka tab **Actions**, lalu tunggu workflow Pages selesai dengan status hijau.
-4. Buka URL Pages yang ditampilkan GitHub pada Settings → Pages.
+## Deployment
+GitHub Pages hanya meng-host frontend statis. Backend Node.js perlu Web Service tersendiri. Render dapat menghubungkan repository GitHub dan mengatur environment variables, tetapi layanan Free akan tidur setelah 15 menit tanpa traffic dan dapat membutuhkan sekitar satu menit untuk bangun; dokumentasi Render menyatakan Free cocok untuk uji coba, bukan produksi: https://render.com/docs/free
 
-Perubahan pada branch `main` akan memicu workflow deploy sesuai konfigurasi repository.
+Untuk deploy backend:
+- Root Directory: `backend`
+- Build Command: `npm install`
+- Start Command: `npm start`
+- Health Check Path: `/health/ready`
+- Environment: `NODE_ENV=production`, `DATABASE_URL`, `FRONTEND_ORIGINS`
 
+Jangan menandai aplikasi siap produksi sebelum secret backend dimasukkan, endpoint readiness sukses, UI login terhubung, dan tes lintas cabang/RLS serta backup/restore dilakukan.
 
-## Login dan inisialisasi owner (backend)
-
-Setelah database PostgreSQL baru dibuat:
-
-1. Jalankan `database/schema.sql`.
-2. Jalankan `database/migrations/001_auth_sessions.sql`.
-3. Di lingkungan lokal yang aman, siapkan `backend/.env` dari `.env.example` dan isi variabel koneksi serta data owner awal. Jangan commit file `.env`.
-4. Dari folder `backend`, jalankan `npm install`, lalu `npm run create-owner`.
-5. Hapus/nonaktifkan variabel `OWNER_*` setelah bootstrap. Jangan jadikan script bootstrap sebagai endpoint publik.
-6. Jalankan API dengan `npm run dev`.
-
-API autentikasi awal:
-- `POST /api/auth/login` — body JSON `{ "organizationId": "UUID", "email": "owner@example.com", "password": "..." }`. Mengembalikan access token singkat dan menetapkan refresh cookie HttpOnly.
-- `POST /api/auth/refresh` — rotasi access dan refresh token melalui cookie.
-- `POST /api/auth/logout` — mencabut sesi dan menghapus cookie.
-- `GET /api/auth/me` — header `Authorization: Bearer ACCESS_TOKEN`.
-
-Refresh cookie bersifat HttpOnly; pada production menggunakan Secure dan SameSite=None untuk frontend/API lintas-origin. CORS hanya mengizinkan origin yang dicantumkan di `FRONTEND_ORIGINS`. Jangan menggunakan wildcard origin bersama credentials. Login dibatasi maksimal 10 percobaan per 15 menit per alamat IP (konfigurasi default).
-
-**Penting:** API login ini merupakan fondasi autentikasi, bukan keseluruhan sistem siap produksi. Belum ada UI login di frontend, pemulihan password, MFA, administrasi user, atau pengujian penetrasi. Simpan access token hanya di memori aplikasi bila memungkinkan; jangan menaruh refresh token di localStorage.
+## CI
+GitHub Actions menjalankan instalasi dependency dan pemeriksaan sintaks JavaScript pada backend. Ini bukan pengganti integration test terhadap database atau pengujian keamanan.
