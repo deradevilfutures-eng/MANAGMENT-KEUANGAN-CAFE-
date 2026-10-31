@@ -26,6 +26,7 @@ Migrasi:
 - `database/migrations/002_foreign_key_indexes.sql`
 - `database/migrations/003_restrict_rls_helper_execution.sql`
 - `database/migrations/004_branch_operations.sql`
+- `database/migrations/005_operations_fk_indexes.sql`
 
 RLS aktif pada tabel fondasi dan tabel operasional. Akses browser ke tabel tidak diberikan; semua query operasional melewati API Node.js dengan pemeriksaan sesi, organisasi, dan cabang.
 
