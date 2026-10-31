@@ -18,7 +18,7 @@
  <p class="muted" id="authSubtitle">Kelola keuangan dan operasional kafe dalam satu tempat.</p>
  <div id="setupNotice" class="notice hidden">Ini pertama kali Racik disiapkan. Buat akun pemilik untuk memulai. Secret setup hanya digunakan sekali.</div>
  <form id="loginForm">
-  <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="username" required></div>
+  <div class="field"><label for="loginUsername">Username</label><input id="loginUsername" type="text" autocomplete="username" required></div>
   <div class="field"><label for="loginPassword">Password</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
   <div id="orgLoginField" class="field hidden"><label for="loginOrg">Organization ID (jika diminta)</label><input id="loginOrg" placeholder="Opsional"></div>
   <button type="submit">Masuk</button>
@@ -27,7 +27,7 @@
   <div class="field"><label for="setupSecret">Secret setup sementara</label><input id="setupSecret" type="password" required autocomplete="off"></div>
   <div class="field"><label for="orgName">Nama usaha / organisasi</label><input id="orgName" required maxlength="120" placeholder="Nama kafe"></div>
   <div class="field"><label for="ownerName">Nama pemilik</label><input id="ownerName" required maxlength="120"></div>
-  <div class="field"><label for="ownerEmail">Email pemilik</label><input id="ownerEmail" type="email" required></div>
+  <div class="field"><label for="ownerUsername">Username pemilik</label><input id="ownerUsername" type="text" minlength="3" maxlength="32" pattern="[a-zA-Z0-9._-]+" required placeholder="contoh: owner">\n  <div class="field"><label for="ownerEmail">Email pemilik (untuk data akun)</label><input id="ownerEmail" type="email" required></div></div>
   <div class="field"><label for="ownerPassword">Password (minimal 12 karakter)</label><input id="ownerPassword" type="password" minlength="12" required autocomplete="new-password"></div>
   <button type="submit">Buat akun pemilik</button>
  </form>
@@ -140,7 +140,7 @@ $('switchSetup').onclick=()=>switchAuth(true);$('switchLogin').onclick=()=>switc
 $('loginForm').onsubmit=async e=>{
  e.preventDefault();authMessage('Memeriksa akun...');
  try{
-  const data=await fetch('/api/auth/login',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('loginEmail').value,password:$('loginPassword').value,organizationId:$('loginOrg').value.trim()||undefined})}).then(async r=>{const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Login gagal');return d});
+  const data=await fetch('/api/auth/login',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:$('loginUsername').value,password:$('loginPassword').value,organizationId:$('loginOrg').value.trim()||undefined})}).then(async r=>{const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'Login gagal');return d});
   state.token=data.accessToken;state.user=data.user;
   if(data.user.length>1){state.organization={id:data.user[0].organizationId,name:data.user[0].organizationName};}
   else state.organization={id:data.user[0].organizationId,name:data.user[0].organizationName};
@@ -150,9 +150,9 @@ $('loginForm').onsubmit=async e=>{
 $('setupForm').onsubmit=async e=>{
  e.preventDefault();authMessage('Membuat organisasi dan akun pemilik...');
  try{
-  const response=await fetch('/api/setup/owner',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','x-bootstrap-secret':$('setupSecret').value},body:JSON.stringify({organizationName:$('orgName').value,ownerName:$('ownerName').value,email:$('ownerEmail').value,password:$('ownerPassword').value})});
+  const response=await fetch('/api/setup/owner',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','x-bootstrap-secret':$('setupSecret').value},body:JSON.stringify({organizationName:$('orgName').value,ownerName:$('ownerName').value,username:$('ownerUsername').value,email:$('ownerEmail').value,password:$('ownerPassword').value})});
   const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Setup gagal');
-  $('loginEmail').value=$('ownerEmail').value;$('loginPassword').value=$('ownerPassword').value;$('loginOrg').value=data.organizationId;
+  $('loginUsername').value=$('ownerUsername').value;$('loginPassword').value=$('ownerPassword').value;$('loginOrg').value=data.organizationId;
   $('setupSecret').value='';$('ownerPassword').value='';switchAuth(false);$('orgLoginField').classList.remove('hidden');
   authMessage('Akun berhasil dibuat. Silakan masuk menggunakan email dan password pemilik.');
  }catch(err){authMessage(err.message);}
