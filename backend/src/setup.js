@@ -20,7 +20,7 @@ export function registerSetupRoutes(app, { pool }) {
     const username=String(req.body?.username||'').trim().toLowerCase();
     const email=String(req.body?.email||'').trim().toLowerCase();
     const password=String(req.body?.password||'');
-    if(!organizationName||!ownerName||!/^\S+@\S+\.\S+$/.test(email)||password.length<12||password.length>256)
+    if(!organizationName||!ownerName||!/^[a-z0-9._-]{3,32}$/.test(username)||!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)||password.length<12||password.length>256)
       return res.status(400).json({error:'invalid_owner_details'});
     const client=await pool.connect();
     try{
