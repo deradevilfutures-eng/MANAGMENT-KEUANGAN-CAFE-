@@ -5,33 +5,40 @@ on:
     branches: [main, "feature/**"]
     paths:
       - "backend/**"
+      - "api/**"
       - "database/**"
-      - "render.yaml"
+      - "package.json"
+      - "vercel.json"
       - ".github/workflows/backend-ci.yml"
   pull_request:
     paths:
       - "backend/**"
+      - "api/**"
       - "database/**"
-      - "render.yaml"
+      - "package.json"
+      - "vercel.json"
       - ".github/workflows/backend-ci.yml"
 
 jobs:
   validate:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@1e60f620b9541d7b0b6b72c4c4a8b6b9b7b4a8a # v4.0.3
         with:
           node-version: 20
+          cache: npm
       - name: Install dependencies
-        run: npm install
+        run: npm install --ignore-scripts
       - name: Check JavaScript syntax
         run: |
-          node --check src/server.js
-          node --check src/auth.js
-          node --check scripts/create-owner.js
+          node --check api/[...path].js
+          node --check backend/src/server.js
+          node --check backend/src/auth.js
+          node --check backend/src/business.js
+          node --check backend/src/setup.js
+          node --check backend/scripts/create-owner.js
