@@ -1,67 +1,58 @@
 # Racik — Manajemen Kafe
 
-Aplikasi web responsif untuk pencatatan keuangan dan operasional kafe. Frontend yang ada saat ini masih berjalan secara lokal di browser; backend dan database terpusat sedang disiapkan bertahap.
+Aplikasi responsif untuk pencatatan keuangan dan operasional kafe, dengan database PostgreSQL terpusat di Supabase.
 
-## Fitur frontend saat ini
-- Dashboard pemasukan, pengeluaran, arus kas bersih, nilai stok, dan grafik 6 bulan
-- Tambah dan hapus transaksi pemasukan/pengeluaran
-- Inventaris, batas minimum stok, dan nilai persediaan
-- Daftar pegawai, status aktif/nonaktif, dan gaji bulanan
-- Filter laporan berdasarkan tanggal
-- Ekspor transaksi, inventaris, pegawai, dan laporan ke CSV
-- Tampilan responsif untuk desktop, tablet, dan ponsel
+## Arsitektur deployment
+- Frontend: static `index.html` pada Vercel.
+- Backend: Express sebagai Vercel Function melalui `api/[...path].js`.
+- Database: Supabase PostgreSQL.
+- Semua permintaan frontend memakai same-origin `/api`; refresh token disimpan pada cookie HttpOnly.
 
-## Status implementasi
-- Frontend lama masih menyimpan data di `localStorage`; belum tersinkron antarperangkat.
-- Fondasi PostgreSQL Racik telah diterapkan pada proyek Supabase yang dipilih.
-- Skema mencakup organisasi, cabang, pengguna, peran, akses cabang, meja, token QR, audit log, dan sesi autentikasi.
-- Backend Node.js tersedia di `backend/`, tetapi belum dipublikasikan ke hosting dan belum dikonfigurasi dengan kredensial database produksi.
-- Belum ada UI login, POS, pemesanan QR, pembayaran digital, atau integrasi data frontend ke API yang aktif.
+Vercel menjalankan aplikasi Express sebagai satu Function. Lihat https://vercel.com/docs/frameworks/backend/express.
 
-## Database Supabase
-Proyek database: `MANAGMENT-KEUANGAN-CAFE-` (region EU North / Stockholm).
+## Fitur frontend
+- Login owner dan pengguna.
+- Pemilihan cabang.
+- Dashboard pemasukan, pengeluaran, arus kas, dan nilai persediaan.
+- CRUD transaksi, inventaris, pegawai.
+- Filter laporan dan ekspor CSV.
+- Layout responsif desktop/tablet/ponsel.
 
-Migration SQL tersimpan di:
+## Database
+Supabase project: `MANAGMENT-KEUANGAN-CAFE-` (EU North / Stockholm).
+Migrasi:
 - `database/schema.sql`
 - `database/migrations/001_auth_sessions.sql`
 - `database/migrations/002_foreign_key_indexes.sql`
+- `database/migrations/003_restrict_rls_helper_execution.sql`
+- `database/migrations/004_branch_operations.sql`
 
-Gunakan Supabase Dashboard → Connect untuk mengambil connection string. Untuk host backend IPv4-only, pilih **Session pooler** dan URI (port 5432). Supabase menjelaskan direct connection memerlukan IPv6 secara default, sedangkan shared pooler session mode mendukung IPv4: https://supabase.com/docs/guides/database/connecting-to-postgres
+RLS aktif pada tabel fondasi dan tabel operasional. Akses browser ke tabel tidak diberikan; semua query operasional melewati API Node.js dengan pemeriksaan sesi, organisasi, dan cabang.
 
-Jangan commit `.env`, password database, publishable/secret key, atau token. Simpan `DATABASE_URL` hanya di environment variables layanan backend. Jangan pernah mengekspos password database atau Supabase secret/service-role key di frontend.
+## Deploy ke Vercel
+1. Import repository `deradevilfutures-eng/MANAGMENT-KEUANGAN-CAFE-` ke Vercel.
+2. Set **Root Directory** ke repository root (kosong / `.`), bukan `backend`.
+3. Framework preset: Other (atau biarkan auto-detect).
+4. Build command: kosong; Output Directory: kosong. Vercel akan menyajikan `index.html` dan mendeteksi `api/[...path].js`.
+5. Set Node.js runtime 20.x atau lebih baru.
+6. Tambahkan Environment Variables berikut untuk Production dan Preview:
+   - `NODE_ENV=production`
+   - `DATABASE_URL`: Supabase Session Pooler URI, port 5432. Masukkan langsung dari Supabase Connect; jangan commit ke GitHub.
+   - `BOOTSTRAP_SECRET`: secret acak panjang sekali pakai (minimal 32 byte acak).
+   - `FRONTEND_ORIGINS`: opsional, hanya untuk origin tambahan; aplikasi default same-origin.
+7. Deploy branch `feature/phase-1-foundation` sebagai Preview terlebih dahulu. Tes `/api/health/ready`.
+8. Setelah Preview lolos uji, merge PR ke `main` sesuai persetujuan pemilik untuk Production.
 
-RLS diaktifkan pada tabel fondasi. Tabel-tabel tersebut sengaja belum memiliki policy browser karena akses operasional direncanakan melalui backend Node.js tepercaya. Jangan menambahkan grant/policy publik tanpa desain otorisasi tenant dan cabang yang diuji.
+## Setup akun owner pertama
+Saat `BOOTSTRAP_SECRET` sudah tersedia dan belum ada owner, halaman login menampilkan **Pengaturan awal pemilik**.
+Masukkan secret tersebut, nama organisasi, nama owner, email, dan password unik minimal 12 karakter. API membuat organisasi, cabang awal `MAIN / Cabang Utama`, akun owner, dan membership dalam satu transaksi.
+Setelah berhasil, hapus `BOOTSTRAP_SECRET` dari Vercel Environment Variables dan redeploy. Jangan pernah menaruh secret atau password di GitHub.
 
-## Backend lokal
-Persyaratan: Node.js 20+ dan koneksi PostgreSQL.
+## Environment lokal
+Salin `backend/.env.example` menjadi `backend/.env` untuk menjalankan backend lokal. Jangan commit `.env`.
+Untuk Vercel, konfigurasi proyek berada di root karena frontend dan API memakai satu origin.
 
-1. Masuk ke folder `backend`.
-2. Jalankan `npm install`.
-3. Salin `.env.example` menjadi `.env`.
-4. Isi `DATABASE_URL` dengan URI Supabase Session pooler (untuk jaringan IPv4) atau Direct connection jika hosting mendukung IPv6.
-5. Isi `FRONTEND_ORIGINS` dengan origin GitHub Pages yang tepat dan origin lokal saat development.
-6. Jalankan `npm run dev`.
-7. Periksa `/health` dan `/health/ready`.
-
-API autentikasi fondasi:
-- `POST /api/auth/login`
-- `POST /api/auth/refresh`
-- `POST /api/auth/logout`
-- `GET /api/auth/me`
-
-Bootstrap owner menggunakan `npm run create-owner` hanya setelah environment aman disiapkan. Gunakan password unik minimal 12 karakter dan jangan commit nilainya. Hapus variabel `OWNER_*` setelah bootstrap.
-
-## Deployment
-GitHub Pages hanya meng-host frontend statis. Backend Node.js perlu Web Service tersendiri. Render dapat menghubungkan repository GitHub dan mengatur environment variables, tetapi layanan Free akan tidur setelah 15 menit tanpa traffic dan dapat membutuhkan sekitar satu menit untuk bangun; dokumentasi Render menyatakan Free cocok untuk uji coba, bukan produksi: https://render.com/docs/free
-
-Untuk deploy backend:
-- Root Directory: `backend`
-- Build Command: `npm install`
-- Start Command: `npm start`
-- Health Check Path: `/health/ready`
-- Environment: `NODE_ENV=production`, `DATABASE_URL`, `FRONTEND_ORIGINS`
-
-Jangan menandai aplikasi siap produksi sebelum secret backend dimasukkan, endpoint readiness sukses, UI login terhubung, dan tes lintas cabang/RLS serta backup/restore dilakukan.
-
-## CI
-GitHub Actions menjalankan instalasi dependency dan pemeriksaan sintaks JavaScript pada backend. Ini bukan pengganti integration test terhadap database atau pengujian keamanan.
+## Batasan tahap ini
+- Data transaksi, inventaris, dan pegawai kini memakai tabel database per organisasi/cabang.
+- Menu, resep, pemakaian bahan otomatis, QR ordering, POS, pembayaran gateway, dan administrasi cabang lanjutan belum dibangun.
+- Jangan menyebut aplikasi siap produksi sebelum uji login, CRUD, isolasi cabang, restore backup, dan review keamanan menyeluruh.
