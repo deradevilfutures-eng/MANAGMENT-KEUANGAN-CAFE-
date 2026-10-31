@@ -11,10 +11,6 @@ import { registerSetupRoutes } from './setup.js';
 const { Pool } = pg;
 const app = express();
 const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
-const allowedOrigins = (process.env.FRONTEND_ORIGINS || '')
-  .split(',').map((origin) => origin.trim()).filter(Boolean);
-if (process.env.VERCEL_URL) allowedOrigins.push(`https://${process.env.VERCEL_URL}`);
-
 app.disable('x-powered-by');
 app.set('trust proxy', isProduction ? 1 : false);
 app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: { policy: 'same-site' } }));
