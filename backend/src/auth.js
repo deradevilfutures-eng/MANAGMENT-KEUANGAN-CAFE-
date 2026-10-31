@@ -69,16 +69,17 @@ export function registerAuthRoutes(app, { pool, isProduction, loginLimiter }) {
   app.post('/api/auth/login', requireDatabase, loginLimiter, async (req, res, next) => {
     try {
       const email = String(req.body?.email || '').trim().toLowerCase();
+      const organizationId = String(req.body?.organizationId || '').trim();
       const password = String(req.body?.password || '');
-      if (!email || !password || email.length > 254 || password.length > 256) {
+      if (!email || !organizationId || !password || email.length > 254 || organizationId.length > 64 || password.length > 256) {
         return res.status(400).json({ error: 'invalid_credentials_format' });
       }
 
       const result = await pool.query(
         `SELECT id, password_hash FROM users
-          WHERE lower(email) = $1 AND is_active = TRUE
+          WHERE lower(email) = $1 AND organization_id = $2 AND is_active = TRUE
           LIMIT 1`,
-        [email],
+        [email, organizationId],
       );
       const user = result.rows[0];
       const valid = user ? await argon2.verify(user.password_hash, password).catch(() => false) : false;
@@ -126,7 +127,7 @@ export function registerAuthRoutes(app, { pool, isProduction, loginLimiter }) {
       );
       const session = found.rows[0];
       if (!session) {
-        res.clearCookie(COOKIE_NAME, { ...cookieOptions(isProduction), maxAge: undefined });
+        res.clearCookie(COOKIE_NAME, { httpOnly: true, secure: isProduction, sameSite: 'lax', path: '/api/auth' });
         return res.status(401).json({ error: 'refresh_session_invalid' });
       }
 
@@ -138,9 +139,9 @@ export function registerAuthRoutes(app, { pool, isProduction, loginLimiter }) {
         `UPDATE auth_sessions
             SET access_token_hash = $1, refresh_token_hash = $2,
                 access_expires_at = $3, refresh_expires_at = $4, last_used_at = now()
-          WHERE id = $5 AND revoked_at IS NULL
+          WHERE id = $5 AND refresh_token_hash = $6 AND revoked_at IS NULL
           RETURNING user_id`,
-        [hashToken(accessToken), hashToken(refreshToken), accessExpiresAt, refreshExpiresAt, session.id],
+        [hashToken(accessToken), hashToken(refreshToken), accessExpiresAt, refreshExpiresAt, session.id, oldHash],
       );
       if (!rotated.rowCount) return res.status(401).json({ error: 'refresh_session_invalid' });
       const memberships = await loadMemberships(pool, session.user_id);
