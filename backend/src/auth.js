@@ -13,7 +13,7 @@ const cookieOptions = (isProduction) => ({
 
 function publicUser(row, branches) {
   return {
-    id: row.id, fullName: row.full_name, email: row.email,
+    id: row.id, fullName: row.full_name, username: row.username, email: row.email,
     organizationId: row.organization_id, organizationName: row.organization_name,
     role: row.role_code, branches,
   };
@@ -44,18 +44,18 @@ export function registerAuthRoutes(app,{pool,isProduction,loginLimiter}){
   const requireDatabase=(_req,res,next)=>pool?next():res.status(503).json({error:'database_not_configured'});
   app.post('/api/auth/login',requireDatabase,loginLimiter,async(req,res,next)=>{
     try{
-      const email=String(req.body?.email||'').trim().toLowerCase();
+      const username=String(req.body?.username||'').trim().toLowerCase();
       const organizationId=String(req.body?.organizationId||'').trim();
       const password=String(req.body?.password||'');
-      if(!email||!password||email.length>254||password.length>256||organizationId.length>64)
+      if(!/^[a-z0-9._-]{3,32}$/.test(username)||!password||password.length>256||organizationId.length>64)
         return res.status(400).json({error:'invalid_credentials_format'});
       const result=organizationId
-        ? await pool.query(`SELECT id,password_hash FROM users WHERE lower(email)=$1 AND organization_id=$2 AND is_active=TRUE LIMIT 1`,[email,organizationId])
-        : await pool.query(`SELECT id,password_hash FROM users WHERE lower(email)=$1 AND is_active=TRUE ORDER BY created_at LIMIT 2`,[email]);
+        ? await pool.query(`SELECT id,password_hash FROM users WHERE lower(username)=$1 AND organization_id=$2 AND is_active=TRUE LIMIT 1`,[username,organizationId])
+        : await pool.query(`SELECT id,password_hash FROM users WHERE lower(email)=$1 AND is_active=TRUE ORDER BY created_at LIMIT 2`,[username]);
       if(!organizationId&&result.rowCount>1)return res.status(400).json({error:'organization_id_required'});
       const user=result.rows[0];
       const valid=user?await argon2.verify(user.password_hash,password).catch(()=>false):false;
-      if(!valid)return res.status(401).json({error:'invalid_email_or_password'});
+      if(!valid)return res.status(401).json({error:'invalid_username_or_password'});
       const accessToken=newToken(),refreshToken=newToken();
       const accessExpiresAt=new Date(Date.now()+ACCESS_TTL_MS),refreshExpiresAt=new Date(Date.now()+REFRESH_TTL_MS);
       await pool.query(`INSERT INTO auth_sessions(user_id,access_token_hash,refresh_token_hash,access_expires_at,refresh_expires_at)
