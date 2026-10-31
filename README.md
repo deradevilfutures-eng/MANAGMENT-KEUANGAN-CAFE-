@@ -46,3 +46,25 @@ GitHub Pages hanya meng-host frontend statis. API Node.js dan PostgreSQL harus d
 4. Buka URL Pages yang ditampilkan GitHub pada Settings → Pages.
 
 Perubahan pada branch `main` akan memicu workflow deploy sesuai konfigurasi repository.
+
+
+## Login dan inisialisasi owner (backend)
+
+Setelah database PostgreSQL baru dibuat:
+
+1. Jalankan `database/schema.sql`.
+2. Jalankan `database/migrations/001_auth_sessions.sql`.
+3. Di lingkungan lokal yang aman, siapkan `backend/.env` dari `.env.example` dan isi variabel koneksi serta data owner awal. Jangan commit file `.env`.
+4. Dari folder `backend`, jalankan `npm install`, lalu `npm run create-owner`.
+5. Hapus/nonaktifkan variabel `OWNER_*` setelah bootstrap. Jangan jadikan script bootstrap sebagai endpoint publik.
+6. Jalankan API dengan `npm run dev`.
+
+API autentikasi awal:
+- `POST /api/auth/login` — body JSON `{ "organizationId": "UUID", "email": "owner@example.com", "password": "..." }`. Mengembalikan access token singkat dan menetapkan refresh cookie HttpOnly.
+- `POST /api/auth/refresh` — rotasi access dan refresh token melalui cookie.
+- `POST /api/auth/logout` — mencabut sesi dan menghapus cookie.
+- `GET /api/auth/me` — header `Authorization: Bearer ACCESS_TOKEN`.
+
+Refresh cookie bersifat HttpOnly; pada production menggunakan Secure dan SameSite=None untuk frontend/API lintas-origin. CORS hanya mengizinkan origin yang dicantumkan di `FRONTEND_ORIGINS`. Jangan menggunakan wildcard origin bersama credentials. Login dibatasi maksimal 10 percobaan per 15 menit per alamat IP (konfigurasi default).
+
+**Penting:** API login ini merupakan fondasi autentikasi, bukan keseluruhan sistem siap produksi. Belum ada UI login di frontend, pemulihan password, MFA, administrasi user, atau pengujian penetrasi. Simpan access token hanya di memori aplikasi bila memungkinkan; jangan menaruh refresh token di localStorage.
